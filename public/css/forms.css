@@ -1,0 +1,10 @@
+.container {
+	width: 90%;
+	max-width: 1250px;
+	margin: 0 auto;
+	border: 1px solid blue;
+}
+
+.login-form {
+	border: 1px solid red;
+}
