@@ -1,0 +1,145 @@
+<%- include("../includes/head.ejs") %>
+    <link rel="stylesheet" type="text/css" href="/css/forms.css">    
+    <link rel="stylesheet" type="text/css" href="/css/update-info.css">
+</head>
+
+<body>
+    <%- include("../includes/navigation.ejs") %>
+    <main class="container update-container">
+        <div class="update-container__profile">
+            <div class="update-container__card">
+                <img src="/img/avatar.jpg">
+                <h1>
+                    <%= userInfo.firstName %>
+                    <%= userInfo.lastName %> 
+                </h1>
+                <h3>
+                    <%= userInfo.addressLineMain %>
+                    <%= userInfo.addressLineSecondary %>
+                    <%= userInfo.city %>,
+                    <%= userInfo.state %>
+                </h3>
+                <h4>
+                    <%= userInfo.occupation %> @
+                    <%= userInfo.company %>
+                </h4>
+            </div>
+        </div>
+        <div class="update-container__update">
+            <form action="/update-info" method="POST"> 
+                <div class="form-control">
+                    <label for="phone">Phone</label>
+                    <input 
+                        type="tel"
+                        name="phone" 
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                        id="phone" 
+                        value="<%= userInfo.phone %>"
+                        maxlength="50"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="addressLineMain">Address 1</label>
+                    <input 
+                        type="text"    
+                        name="addressLineMain" 
+                        id="addressLineMain" 
+                        value="<%= userInfo.addressLineMain %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="addressLineSecondary">Address 2</label>
+                    <input 
+                        type="text"    
+                        name="addressLineSecondary" 
+                        id="addressLineSecondary" 
+                        value="<%= userInfo.addressLineSecondary %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="city">City</label>
+                    <input 
+                        type="text"    
+                        name="city" 
+                        id="city" 
+                        value="<%= userInfo.city %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="state">State</label>
+                    <input 
+                        type="text"    
+                        name="state" 
+                        id="state" 
+                        value="<%= userInfo.state %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="zip">Zip</label>
+                    <input 
+                        type="text"    
+                        pattern="[0-9]{5}"
+                        name="zip" 
+                        id="zip" 
+                        value="<%= userInfo.zip %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="classYear">Class</label>
+                    <input 
+                        type="text"
+                        name="classYear" 
+                        id="classYear" 
+                        value="<%= userInfo.classYear %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="major">Major</label>
+                    <input 
+                        type="text"    
+                        name="major" 
+                        id="major" 
+                        value="<%= userInfo.major %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="occupation">Occupation</label>
+                    <input 
+                        type="text"    
+                        name="occupation" 
+                        id="occupation" 
+                        value="<%= userInfo.occupation %>"
+                    >
+                </div>
+                <div class="form-control">
+                    <label for="company">Company</label>
+                    <input 
+                        type="text"    
+                        name="company" 
+                        id="company" 
+                        value="<%= userInfo.company %>"
+                    >
+                </div>
+               
+                <br>
+                    <hr>
+                <br>
+                <div class="form-control">
+                    <input type="text" name="facebook" id="facebook" placeholder="Facebook" value="<%= userInfo.social.facebook %>">
+                </div>
+                <div class="form-control">
+                    <input type="text" name="twitter" id="twitter" placeholder="Twitter" value="<%= userInfo.social.twitter %>">
+                </div>
+                <div class="form-control">
+                    <input type="text" name="linkedIn" id="linkedIn" placeholder="LinkedIn" value="<%= userInfo.social.linkedIn %>">
+                </div>
+                <div class="form-control">
+                    <input type="text" name="instagram" id="instagram" placeholder="Instagram" value="<%= userInfo.social.instagram %>">
+                </div>
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                <button class="btn btn--main" type="submit">Update information</button>
+            </form>
+        </div>
+    </main>
+
+<%- include('../includes/end.ejs') %>

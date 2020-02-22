@@ -1,43 +1,144 @@
 <nav class="navbar">
 	<a href="http://cairn.edu" class="navbar__logo">
 		C.U Connect
-		<!-- <img src="https://s3.amazonaws.com/freecodecamp/freecodecamp_logo.svg" alt="freeCodeCamp logo"> -->
+		<!-- <img src="/img/CairnLogo.png" /> -->
 	</a>
 	<ul class="navbar__menu">
 		<li>
-			<a class="<%= path === '/' ? 'navbar__active' : '' %>" href="#"
+			<a class="<%= path === '/' ? 'navbar__active' : '' %>" href="/"
 				>Home
+			</a>
+		</li>
+		<% if (userType === "alumni") { %>
+		<li class="dropdown">
+			<a class="<%= path === '/me' ? 'navbar__active' : '' %>" href="/me"
+				>Me
+			</a>
+			<div class="dropdown-content">
+				<a href="#">Home</a>
+				<a href="#">Messages</a>
+				<a href="/update-info">Update</a>
+				<a href="#">Reports</a>
+			</div>
+		</li>
+		<li class="dropdown">
+			<a
+				class="<%= path === '/events' ? 'navbar__active' : '' %>"
+				href="/events"
+				>Events
+			</a>
+			<div class="dropdown-content">
+				<a href="#">Home</a>
+				<a href="#">Request</a>
+				<a href="#">Requested</a>
+			</div>
+		</li>
+		<li>
+			<a
+				class="<%= path === '/connect' ? 'navbar__active' : '' %>"
+				href="/connect"
+				>Connect
 			</a>
 		</li>
 		<li>
 			<a
+				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
+				href="https://cairn.edu/give/online/"
+				>Donate
+			</a>
+		</li>
+		<% } else if (userType === "admin") { %>
+		<li class="dropdown">
+			<a
+				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
+				href="https://cairn.edu/give/online/"
+				>Donate
+			</a>
+			<div class="dropdown-content">
+				<a href="#">Home</a>
+				<a href="#">See Metrics</a>
+			</div>
+		</li>
+		<li class="dropdown">
+			<a
 				class="<%= path === '/events' ? 'navbar__active' : '' %>"
-				href="#"
+				href="/events"
+				>Events
+			</a>
+			<div class="dropdown-content">
+				<a href="#">Home</a>
+				<a href="#">Add Event</a>
+				<a href="#">Requested</a>
+			</div>
+		</li>
+		<li class="dropdown">
+			<a
+				class="<%= path === '/admin/alumni/management' ? 'navbar__active' : '' %>"
+				href="/admin/alumni/management"
+				>Alumni
+			</a>
+			<div class="dropdown-content">
+				<a href="#">Home</a>
+				<a href="#">Master Search</a>
+				<a href="#">Add News</a>
+			</div>
+		</li>
+		<li class="dropdown">
+			<a
+				class="<%= path === '/admin/alumni/management' ? 'navbar__active' : '' %>"
+				href="/admin/alumni/management"
+				>Management
+			</a>
+			<div class="dropdown-content">
+				<a href="#">Home</a>
+				<a href="#">Site Config</a>
+			</div>
+		</li>
+		<% } else if (userType === "student") { %>
+		<li>
+			<a
+				class="<%= path === '/connect' ? 'navbar__active' : '' %>"
+				href="/connect"
+				>Connect
+			</a>
+		</li>
+		<% } else { %>
+		<li>
+			<a
+				class="<%= path === '/events' ? 'navbar__active' : '' %>"
+				href="/events"
 				>Events
 			</a>
 		</li>
 		<li>
 			<a
 				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
-				href="#"
+				href="https://cairn.edu/give/online/"
 				>Donate
 			</a>
 		</li>
+		<% } %> <% if (!isAuthenticated) { %>
 		<li>
-			<a class="<%= path === '/login' ? 'navbar__active' : '' %>" href="#"
+			<a
+				class="<%= path === '/login' ? 'navbar__active' : '' %>"
+				href="/login"
 				>Login
 			</a>
 		</li>
-		<!--
 		<li>
-			<a class="<%= path === '/signup' ? 'active' : '' %>" href="#"
+			<a
+				class="<%= path === '/signup' ? 'navbar__active' : '' %>"
+				href="/signup"
 				>Signup
 			</a>
 		</li>
-        <li class="item button secondary"><a href="#">Sign Up</a></li>
-		<li class="toggle"
-			><a href="#"><i class="fa fa-bars"></i></a
-        ></li> 
-        -->
+		<% } else { %>
+		<li>
+			<form action="/logout" method="post">
+				<input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+				<button class="btn--logout" type="submit">Logout</button>
+			</form>
+		</li>
+		<% } %>
 	</ul>
 </nav>
