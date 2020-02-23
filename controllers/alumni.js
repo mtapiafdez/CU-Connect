@@ -1,5 +1,4 @@
 const User = require("../models/user");
-const mongoose = require("mongoose");
 
 exports.getMe = (req, res, next) => {
 	res.render("alumni-student/me", {
@@ -9,8 +8,6 @@ exports.getMe = (req, res, next) => {
 };
 
 exports.getUpdate = (req, res, next) => {
-	console.log(req.session.user._id);
-
 	User.findById(req.session.user._id)
 		.select("-password")
 		.then(user => {
@@ -74,4 +71,15 @@ exports.postUpdate = (req, res, next) => {
 			error.httpStatusCode = 500;
 			return next(error);
 		});
+};
+
+exports.getEventRequest = (req, res, next) => {
+	res.render("alumni/request-event", {
+		path: "/events",
+		pageTitle: "Request Event"
+	});
+};
+
+exports.postEventRequest = (req, res, next) => {
+	res.redirect("/");
 };

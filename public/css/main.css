@@ -28,18 +28,24 @@ body {
 	display: flex;
 	justify-content: space-between;
 	align-items: center;
+	height: 65px;
 }
 
 .navbar__logo {
-	flex: 0 0 25%;
+	flex: 0 0 200px;
 	font-size: 1.2rem;
 	color: white;
-	padding: 1em;
+	padding: 0.5em;
 	text-decoration: none;
+	height: 100%;
+}
+
+.navbar__logo img {
+	height: 100%;
 }
 
 .navbar__menu {
-	flex: 0 0 75%;
+	flex: 1 0;
 	align-self: stretch;
 	display: flex;
 	flex-wrap: wrap;
@@ -60,7 +66,8 @@ body {
 	text-decoration: none;
 }
 
-.navbar__menu a:hover {
+.navbar__menu a:hover,
+.navbar__menu button:hover {
 	padding-bottom: 0.1em;
 	border-bottom: 1px solid white;
 }
@@ -132,6 +139,7 @@ body {
 		flex-direction: column;
 		justify-content: stretch;
 		align-items: stretch;
+		height: auto;
 	}
 
 	.navbar__logo {
@@ -154,6 +162,11 @@ body {
 
 	.dropdown-content {
 		top: 20px;
+	}
+
+	.navbar__logo img {
+		width: 100%;
+		height: auto;
 	}
 }
 

@@ -1,7 +1,6 @@
 <nav class="navbar">
 	<a href="http://cairn.edu" class="navbar__logo">
-		C.U Connect
-		<!-- <img src="/img/CairnLogo.png" /> -->
+		<img src="/img/CairnLogoWhiteTrim.png" />
 	</a>
 	<ul class="navbar__menu">
 		<li>
@@ -11,26 +10,26 @@
 		</li>
 		<% if (userType === "alumni") { %>
 		<li class="dropdown">
-			<a class="<%= path === '/me' ? 'navbar__active' : '' %>" href="/me"
+			<a class="<%= path === '/me' ? 'navbar__active' : '' %>" href="#"
 				>Me
 			</a>
 			<div class="dropdown-content">
-				<a href="#">Home</a>
-				<a href="#">Messages</a>
+				<a href="/me">Home</a>
+				<a href="/messages">Messages</a>
 				<a href="/update-info">Update</a>
-				<a href="#">Reports</a>
+				<a href="/reports">Reports</a>
 			</div>
 		</li>
 		<li class="dropdown">
 			<a
 				class="<%= path === '/events' ? 'navbar__active' : '' %>"
-				href="/events"
+				href="#"
 				>Events
 			</a>
 			<div class="dropdown-content">
-				<a href="#">Home</a>
-				<a href="#">Request</a>
-				<a href="#">Requested</a>
+				<a href="/events">Home</a>
+				<a href="/request-event">Request</a>
+				<a href="/requested-events">Requested</a>
 			</div>
 		</li>
 		<li>
@@ -51,55 +50,79 @@
 		<li class="dropdown">
 			<a
 				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
-				href="https://cairn.edu/give/online/"
+				href="#"
 				>Donate
 			</a>
 			<div class="dropdown-content">
-				<a href="#">Home</a>
-				<a href="#">See Metrics</a>
+				<a href="donate">Home</a>
+				<a href="admin/donate-metrics">See Metrics</a>
 			</div>
 		</li>
 		<li class="dropdown">
 			<a
 				class="<%= path === '/events' ? 'navbar__active' : '' %>"
-				href="/events"
+				href="#"
 				>Events
 			</a>
 			<div class="dropdown-content">
-				<a href="#">Home</a>
-				<a href="#">Add Event</a>
-				<a href="#">Requested</a>
+				<a href="/events">Home</a>
+				<a href="/admin/add-event">Add Event</a>
+				<a href="/admin/event-approval">Requested</a>
 			</div>
 		</li>
 		<li class="dropdown">
 			<a
 				class="<%= path === '/admin/alumni/management' ? 'navbar__active' : '' %>"
-				href="/admin/alumni/management"
+				href="#"
 				>Alumni
 			</a>
 			<div class="dropdown-content">
 				<a href="#">Home</a>
-				<a href="#">Master Search</a>
-				<a href="#">Add News</a>
+				<a href="/admin/master-search">Master Search</a>
+				<a href="/admin/add-news">Add News</a>
 			</div>
 		</li>
 		<li class="dropdown">
 			<a
 				class="<%= path === '/admin/alumni/management' ? 'navbar__active' : '' %>"
-				href="/admin/alumni/management"
+				href="#"
 				>Management
 			</a>
 			<div class="dropdown-content">
 				<a href="#">Home</a>
-				<a href="#">Site Config</a>
+				<a href="/admin/site-config">Site Config</a>
 			</div>
 		</li>
 		<% } else if (userType === "student") { %>
+		<li class="dropdown">
+			<a class="<%= path === '/me' ? 'navbar__active' : '' %>" href="/#"
+				>Me
+			</a>
+			<div class="dropdown-content">
+				<a href="#">Home</a>
+				<a href="#">Messages</a>
+			</div>
+		</li>
+		<li>
+			<a
+				class="<%= path === '/events' ? 'navbar__active' : '' %>"
+				href="/events"
+				>Events
+			</a>
+		</li>
 		<li>
 			<a
 				class="<%= path === '/connect' ? 'navbar__active' : '' %>"
 				href="/connect"
 				>Connect
+			</a>
+		</li>
+		<li>
+			<a
+				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
+				href="https://cairn.edu/give/online/"
+				target="_blank"
+				>Donate
 			</a>
 		</li>
 		<% } else { %>
@@ -114,6 +137,7 @@
 			<a
 				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
 				href="https://cairn.edu/give/online/"
+				target="_blank"
 				>Donate
 			</a>
 		</li>
