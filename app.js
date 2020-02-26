@@ -26,7 +26,7 @@ const studentRoutes = require("./routes/student");
 const errorRoutes = require("./routes/error");
 const errorController = require("./controllers/error");
 
-// Declare Mongo URI
+// Declare Mongo URI - Add URI
 const MONGODB_URI = "";
 
 // Instantiate MongoDBStore & Initialize CSRF Protection
