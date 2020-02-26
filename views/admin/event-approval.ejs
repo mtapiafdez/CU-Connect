@@ -1,0 +1,34 @@
+<%- include("../includes/head.ejs") %>
+
+</head>
+
+<body>
+    <%- include("../includes/navigation.ejs") %>
+
+    <main>
+        <h1 class="main-header">Event Approval</h1>
+        <% for (let event of events) { %>
+            <div class="requested-event-item">
+                <div>
+                    <h1><%= event.eventName %></h1>
+                    <h2><%= event.eventDate %></h2>
+                    <h3><%= event.eventTime %></h3>
+                    <h4><%= event.eventDesc %></h4>
+                </div>
+                <div class="actions">
+                    <input type="hidden" name="reqEventId" value="<%= event._id %>" >
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                    <button onclick="processRequest(this, 'APPROVED');" type="button">
+                        Approve Event
+                    </button>
+                    <button onclick="processRequest(this, 'REJECTED');" type="button">
+                        Reject Event
+                    </button>
+                </div>
+            </div>
+        <% } %>
+    </main>
+
+    <script src="/js/admin.js"></script>
+
+<%- include("../includes/end.ejs") %>

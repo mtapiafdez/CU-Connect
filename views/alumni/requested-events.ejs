@@ -1,0 +1,32 @@
+<%- include("../includes/head.ejs") %>
+
+    <link rel="stylesheet" type="text/css" href="/css/alumni/requested-events.css">
+</head>
+
+<body>
+    <%- include("../includes/navigation.ejs") %>
+
+    <main>
+        <h1 class="main-header">Requested Events</h1>
+        <% for (let event of requestedEvents) { %>
+            <div class="requested-event-item">
+                <div>
+                    <h1><%= event.eventName %></h1>
+                    <h2><%= event.eventDate %></h2>
+                    <h3><%= event.eventTime %></h3>
+                    <h4><%= event.eventDesc %></h4>
+                </div>
+                <div class="actions">
+                    <input type="hidden" name="reqEventId" value="<%= event._id %>" >
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                    <button onclick="cancelRequest(this);" type="button">
+                        Cancel Request
+                    </button>
+                </div>
+            </div>
+        <% } %>
+    </main>
+
+    <script src="/js/alumni.js"></script>
+    
+<%- include("../includes/end.ejs") %>

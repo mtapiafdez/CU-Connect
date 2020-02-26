@@ -1,11 +1,21 @@
 <%- include("../includes/head.ejs") %>
+
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main class="container">
-       <h1>Events</h1>
+    <main>
+       <h1 class="main-header">Events</h1>
+        <% for (let event of events) { %>
+            <div> 
+                <h1><%= event.eventName %></h1>
+                <h2><%= event.eventDate %></h2>
+                <h3><%= event.eventTime %></h3>
+                <h4><%= event.eventDesc %></h4>
+            </div>
+        <% } %>
     </main>
 
 <%- include('../includes/end.ejs') %>
+

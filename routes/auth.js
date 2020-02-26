@@ -1,4 +1,5 @@
 const express = require("express");
+const isAuth = require("../middleware/is-auth");
 const { body } = require("express-validator");
 
 const authController = require("../controllers/auth");
@@ -6,10 +7,11 @@ const User = require("../models/user");
 
 const router = express.Router();
 
+//! LOGIN
+// GET => /login
 router.get("/login", authController.getLogin);
 
-router.get("/signup", authController.getSignup);
-
+// POST => /login
 router.post(
 	"/login",
 	[
@@ -25,6 +27,11 @@ router.post(
 	authController.postLogin
 );
 
+//! SIGNUP
+// GET => /signup
+router.get("/signup", authController.getSignup);
+
+// POST => /signup
 router.post(
 	"/signup",
 	[
@@ -51,8 +58,6 @@ router.post(
 		body("confirmPassword")
 			.trim()
 			.custom((value, { req }) => {
-				console.log("A ", value);
-				console.log("B ", req.body.password);
 				if (value !== req.body.password) {
 					throw new Error("Passwords have to match!");
 				}
@@ -62,12 +67,17 @@ router.post(
 	authController.postSignup
 );
 
-router.post("/logout", authController.postLogout);
+//! LOGOUT
+// POST => /logout
+router.post("/logout", isAuth.General, authController.postLogout);
 
-/* Password Reset */
+//! PASSWORD REST
+// GET-POST => /reset & /reset/:token
 router.get("/reset", authController.getReset);
 router.post("/reset", authController.postReset);
 router.get("/reset/:token", authController.getNewPassword);
+
+// POST => /new-password
 router.post("/new-password", authController.postNewPassword);
 
 module.exports = router;

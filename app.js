@@ -7,6 +7,10 @@ const session = require("express-session");
 const MongoDBStore = require("connect-mongodb-session")(session);
 const csrf = require("csurf");
 const flash = require("connect-flash");
+const multer = require("multer");
+const uuidv4 = require("uuid/v4");
+
+// Import User Model
 const User = require("./models/user");
 
 // Initialize Express Server & Port
@@ -19,6 +23,7 @@ const authRoutes = require("./routes/auth");
 const adminRoutes = require("./routes/admin");
 const alumniRoutes = require("./routes/alumni");
 const studentRoutes = require("./routes/student");
+const errorRoutes = require("./routes/error");
 const errorController = require("./controllers/error");
 
 // Declare Mongo URI
@@ -31,13 +36,44 @@ const store = new MongoDBStore({
 });
 const csrfProtection = csrf();
 
+// Defining Multer Storage &  File Filter
+const fileStorage = multer.diskStorage({
+	// Send To Images Directory
+	destination: (req, file, cb) => {
+		cb(null, "images");
+	},
+	// Use Universal Unique Identifier & Original Filename
+	filename: (req, file, cb) => {
+		cb(null, `${uuidv4()}-${file.originalname}`);
+	}
+});
+
+const fileFilter = (req, file, cb) => {
+	// Allow Only Images
+	if (
+		file.mimetype === "image/png" ||
+		file.mimetype === "image/jpg" ||
+		file.mimetype === "image/jpeg"
+	) {
+		cb(null, true);
+	} else {
+		cb(null, false);
+	}
+};
+
 // Setting EJS As View Engine & Views Dir
 app.set("view engine", "ejs");
 app.set("views", "views");
 
-// Set Public Directory, Filter Requests Through BodyParser/Session
+// Set Static Directories
 app.use(express.static(path.join(__dirname, "public")));
+app.use("/images", express.static(path.join(__dirname, "images")));
+
+// Filter Requests Through BodyParser/Multer/Session
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(
+	multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
+);
 app.use(
 	session({
 		secret: "",
@@ -61,21 +97,21 @@ app.use((req, res, next) => {
 });
 
 // Add Mongoose User Model To Req
-app.use((req, res, next) => {
+app.use(async (req, res, next) => {
 	if (!req.session.user) {
 		return next();
 	}
-	User.findById(req.session.user._id)
-		.then(user => {
-			if (!user) {
-				return next();
-			}
-			req.user = user;
-			next();
-		})
-		.catch(err => {
-			next(new Error(err)); // Inside Async Stuff
-		});
+	try {
+		const user = await User.findById(req.session.user._id);
+
+		if (!user) {
+			return next();
+		}
+		req.user = user;
+		next();
+	} catch (err) {
+		throw new Error(err);
+	}
 });
 
 // Filter Through Main Routes
@@ -84,8 +120,7 @@ app.use(authRoutes);
 app.use(alumniRoutes);
 app.use(studentRoutes);
 app.use("/admin", adminRoutes);
-
-app.get("/500", errorController.get500);
+app.use(errorRoutes);
 
 app.use(errorController.get404);
 
@@ -93,8 +128,7 @@ app.use(errorController.get404);
 app.use((error, req, res, next) => {
 	res.status(500).render("500", {
 		pageTitle: "Error!",
-		path: "/500",
-		isAuthenticated: req.session.isLoggedIn
+		path: "/500"
 	});
 });
 

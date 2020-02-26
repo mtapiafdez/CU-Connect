@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// Article Blueprint
 const articleSchema = new Schema({
 	articleName: {
 		type: String,
@@ -15,7 +16,7 @@ const articleSchema = new Schema({
 		type: Date,
 		required: true
 	},
-	articleSummary: {
+	articleDesc: {
 		type: String,
 		required: true
 	},

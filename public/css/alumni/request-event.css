@@ -6,7 +6,7 @@
 
 .form-control {
 	width: 50%;
-	margin: 0 auto;
+	margin: 2em auto;
 }
 
 .form-control textarea {
@@ -15,5 +15,5 @@
 
 .form-control__time {
 	display: inline-block;
-	width: 50%;
+	width: 49%;
 }

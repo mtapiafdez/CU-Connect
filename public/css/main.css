@@ -170,6 +170,15 @@ body {
 	}
 }
 
+/* 404 / 500 Page */
+.error-container {
+	/* Make Height Viewport */
+	min-height: calc(100vh - 65px);
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
 @media (max-width: 500px) {
 	html {
 		font-size: 13px;

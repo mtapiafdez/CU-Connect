@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// Event Blueprint
 const eventSchema = new Schema({
 	eventName: {
 		type: String,
@@ -15,16 +16,16 @@ const eventSchema = new Schema({
 		type: Date,
 		required: true
 	},
-	eventSummary: {
+	eventDesc: {
 		type: String,
 		required: true
 	},
 	approved: {
 		type: String,
-		enum: ["APPROVED", "REJECTED", "PENDING"],
 		default: "PENDING",
 		required: true
 	},
+	// Relationship / Reference To User
 	userId: {
 		type: Schema.Types.ObjectId,
 		ref: "User",

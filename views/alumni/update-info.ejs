@@ -1,14 +1,20 @@
 <%- include("../includes/head.ejs") %>
+
     <link rel="stylesheet" type="text/css" href="/css/forms.css">    
     <link rel="stylesheet" type="text/css" href="/css/update-info.css">
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
+    
     <main class="container update-container">
         <div class="update-container__profile">
             <div class="update-container__card">
-                <img src="/img/avatar.jpg">
+                <% if (userInfo.profileUrl !== '') { %>
+                    <img src="/<%= userInfo.profileUrl %>">
+                <% } else { %> 
+                    <img src="/img/avatar.jpg">
+                <% } %>
                 <h1>
                     <%= userInfo.firstName %>
                     <%= userInfo.lastName %> 
@@ -29,7 +35,7 @@
             </div>
         </div>
         <div class="update-container__update">
-            <form action="/update-info" method="POST"> 
+            <form action="/update-info" method="POST" enctype="multipart/form-data"> 
                 <div class="form-control">
                     <label for="phone">Phone</label>
                     <input 
@@ -123,6 +129,14 @@
                         value="<%= userInfo.company %>"
                     >
                 </div>
+                <div class="form-control">
+                    <label for="image">Image</label>
+                    <input 
+                        type="file"     
+                        name="image" 
+                        id="image" 
+                    >
+                </div>
                
                 <br>
                     <hr>
@@ -139,6 +153,7 @@
                 <div class="form-control">
                     <input type="text" name="instagram" id="instagram" placeholder="Instagram" value="<%= userInfo.social.instagram %>">
                 </div>
+
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                 <button class="btn btn--main" type="submit">Update information</button>
             </form>

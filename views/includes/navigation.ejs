@@ -43,6 +43,7 @@
 			<a
 				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
 				href="https://cairn.edu/give/online/"
+				target="_blank"
 				>Donate
 			</a>
 		</li>
@@ -54,8 +55,8 @@
 				>Donate
 			</a>
 			<div class="dropdown-content">
-				<a href="donate">Home</a>
-				<a href="admin/donate-metrics">See Metrics</a>
+				<a href="/donate">Home</a>
+				<a href="/admin/donate-metrics">See Metrics</a>
 			</div>
 		</li>
 		<li class="dropdown">
@@ -66,31 +67,29 @@
 			</a>
 			<div class="dropdown-content">
 				<a href="/events">Home</a>
-				<a href="/admin/add-event">Add Event</a>
-				<a href="/admin/event-approval">Requested</a>
+				<a href="/admin/events/add-event">Add Event</a>
+				<a href="/admin/events/event-approval">Requested</a>
 			</div>
 		</li>
 		<li class="dropdown">
 			<a
-				class="<%= path === '/admin/alumni/management' ? 'navbar__active' : '' %>"
+				class="<%= path === '/alumni' ? 'navbar__active' : '' %>"
 				href="#"
 				>Alumni
 			</a>
 			<div class="dropdown-content">
-				<a href="#">Home</a>
-				<a href="/admin/master-search">Master Search</a>
-				<a href="/admin/add-news">Add News</a>
+				<a href="/admin/alumni/master-search">Master Search</a>
+				<a href="/admin/alumni/add-news">Add News</a>
 			</div>
 		</li>
 		<li class="dropdown">
 			<a
-				class="<%= path === '/admin/alumni/management' ? 'navbar__active' : '' %>"
+				class="<%= path === '/management' ? 'navbar__active' : '' %>"
 				href="#"
 				>Management
 			</a>
 			<div class="dropdown-content">
-				<a href="#">Home</a>
-				<a href="/admin/site-config">Site Config</a>
+				<a href="/admin/management/site-config">Site Config</a>
 			</div>
 		</li>
 		<% } else if (userType === "student") { %>
@@ -99,8 +98,8 @@
 				>Me
 			</a>
 			<div class="dropdown-content">
-				<a href="#">Home</a>
-				<a href="#">Messages</a>
+				<a href="/student-me">Home</a>
+				<a href="/student-messages">Messages</a>
 			</div>
 		</li>
 		<li>
@@ -113,7 +112,7 @@
 		<li>
 			<a
 				class="<%= path === '/connect' ? 'navbar__active' : '' %>"
-				href="/connect"
+				href="/student-connect"
 				>Connect
 			</a>
 		</li>

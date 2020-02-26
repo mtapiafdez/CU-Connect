@@ -1,11 +1,12 @@
 <%- include("../includes/head.ejs") %>
+
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main class="container">
-        <h1>Home</h1>
+    <main>
+        <h1 class="main-header">Home</h1>
         <% if (userType === "alumni") { %>
             <h2>Alumni Loaded</h2>
         <% } else if (userType === "admin") { %>
@@ -16,4 +17,5 @@
             <h2>Public Loaded</h2>
         <% } %>
     </main>
+
 <%- include('../includes/end.ejs') %>

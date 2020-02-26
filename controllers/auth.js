@@ -10,12 +10,12 @@ const User = require("../models/user");
 const transporter = nodemailer.createTransport(
 	sendgridTransport({
 		auth: {
-			api_key:
-				"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"
+			api_key: ""
 		}
 	})
 );
 
+// Returns Login View
 exports.getLogin = (req, res, next) => {
 	let message = req.flash("error");
 	if (message.length > 0) {
@@ -35,6 +35,76 @@ exports.getLogin = (req, res, next) => {
 	});
 };
 
+// Post Login To Server
+exports.postLogin = async (req, res, next) => {
+	const email = req.body.email;
+	const password = req.body.password;
+
+	const errors = validationResult(req);
+
+	if (!errors.isEmpty()) {
+		return res.status(422).render("auth/login", {
+			path: "/login",
+			pageTitle: "Login",
+			errorMessage: errors.array()[0].msg,
+			oldInput: {
+				email: email,
+				password: password
+			},
+			validationErrors: errors.array()
+		});
+	}
+
+	try {
+		const user = await User.findOne({ email: email });
+
+		if (!user) {
+			return res.status(422).render("auth/login", {
+				path: "/login",
+				pageTitle: "Login",
+				errorMessage: "Invalid email or password.",
+				oldInput: {
+					email: email,
+					password: password
+				},
+				validationErrors: []
+			});
+		}
+
+		const doMatch = await bcrypt.compare(password, user.password);
+
+		if (doMatch) {
+			req.session.isLoggedIn = true;
+			req.session.user = user;
+			req.session.userType = user.type;
+			return req.session.save(err => {
+				console.log("Session saved!");
+				res.redirect("/");
+			});
+		}
+		return res.status(422).render("auth/login", {
+			path: "/login",
+			pageTitle: "Login",
+			errorMessage: "Invalid email or password.",
+			oldInput: {
+				email: email,
+				password: password
+			},
+			validationErrors: []
+		});
+	} catch (err) {
+		// .catch(err => {
+		// 	console.log(err);
+		// 	res.redirect("/login");
+		// });
+
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
+};
+
+// Returns Signup View
 exports.getSignup = (req, res, next) => {
 	let message = req.flash("error");
 	if (message.length > 0) {
@@ -56,75 +126,8 @@ exports.getSignup = (req, res, next) => {
 	});
 };
 
-exports.postLogin = (req, res, next) => {
-	const email = req.body.email;
-	const password = req.body.password;
-
-	const errors = validationResult(req);
-
-	if (!errors.isEmpty()) {
-		return res.status(422).render("auth/login", {
-			path: "/login",
-			pageTitle: "Login",
-			errorMessage: errors.array()[0].msg,
-			oldInput: {
-				email: email,
-				password: password
-			},
-			validationErrors: errors.array()
-		});
-	}
-
-	User.findOne({ email: email })
-		.then(user => {
-			if (!user) {
-				return res.status(422).render("auth/login", {
-					path: "/login",
-					pageTitle: "Login",
-					errorMessage: "Invalid email or password.",
-					oldInput: {
-						email: email,
-						password: password
-					},
-					validationErrors: []
-				});
-			}
-			bcrypt
-				.compare(password, user.password)
-				.then(doMatch => {
-					if (doMatch) {
-						req.session.isLoggedIn = true;
-						req.session.user = user;
-						req.session.userType = user.type;
-						return req.session.save(err => {
-							console.log("Session saved!");
-							res.redirect("/");
-						});
-					}
-					return res.status(422).render("auth/login", {
-						path: "/login",
-						pageTitle: "Login",
-						errorMessage: "Invalid email or password.",
-						oldInput: {
-							email: email,
-							password: password
-						},
-						validationErrors: []
-					});
-				})
-				.catch(err => {
-					console.log(err);
-					res.redirect("/login");
-				});
-		})
-		.catch(err => {
-			const error = new Error(err);
-			error.httpStatusCode = 500;
-			return next(error);
-		});
-};
-
-exports.postSignup = (req, res, next) => {
+// Post Signup To Server
+exports.postSignup = async (req, res, next) => {
 	const firstName = req.body.firstName;
 	const lastName = req.body.lastName;
 	const email = req.body.email;
@@ -170,45 +173,43 @@ exports.postSignup = (req, res, next) => {
 		});
 	}
 
-	return bcrypt
-		.hash(password, 12)
-		.then(hashedPassword => {
-			const user = new User({
-				firstName: firstName,
-				lastName: lastName,
-				email: email,
-				phone: phone,
-				addressLineMain: addressLineMain,
-				addressLineSecondary: addressLineSecondary,
-				city: city,
-				state: state,
-				zip: zip,
-				classYear: classYear,
-				major: major,
-				occupation: occupation,
-				company: company,
-				password: hashedPassword,
-				type: "alumni"
-			});
-			return user.save();
-		})
-		.then(result => {
-			console.log("Here");
-			res.redirect("/login");
-			return transporter.sendMail({
-				to: email,
-				from: "admin@cu-connect.com",
-				subject: "Signup succeeded!",
-				html: "<h1>Signup Successful</h1>"
-			});
-		})
-		.catch(err => {
-			const error = new Error(err);
-			error.httpStatusCode = 500;
-			return next(error);
+	try {
+		const hashedPassword = await bcrypt.hash(password, 12);
+
+		const user = new User({
+			firstName: firstName,
+			lastName: lastName,
+			email: email,
+			phone: phone,
+			addressLineMain: addressLineMain,
+			addressLineSecondary: addressLineSecondary,
+			city: city,
+			state: state,
+			zip: zip,
+			classYear: classYear,
+			major: major,
+			occupation: occupation,
+			company: company,
+			password: hashedPassword,
+			type: "alumni"
 		});
+		await user.save();
+
+		res.redirect("/login");
+		return transporter.sendMail({
+			to: email,
+			from: "admin@cu-connect.com",
+			subject: "Signup succeeded!",
+			html: "<h1>Signup Successful</h1>"
+		});
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
 };
 
+// Post Logout To Server
 exports.postLogout = (req, res, next) => {
 	req.session.destroy(err => {
 		console.log("Session Destroyed");
@@ -216,6 +217,7 @@ exports.postLogout = (req, res, next) => {
 	});
 };
 
+// Return Reset View
 exports.getReset = (req, res, next) => {
 	let message = req.flash("error");
 	if (message.length > 0) {
@@ -230,6 +232,7 @@ exports.getReset = (req, res, next) => {
 	});
 };
 
+// TODO: Turn Async-Await - Post Reset To Server
 exports.postReset = (req, res, next) => {
 	crypto.randomBytes(32, (err, buffer) => {
 		if (err) {
@@ -269,34 +272,37 @@ exports.postReset = (req, res, next) => {
 	});
 };
 
-exports.getNewPassword = (req, res, next) => {
+// Return New Password View
+exports.getNewPassword = async (req, res, next) => {
 	const token = req.params.token;
-	User.findOne({
-		resetToken: token,
-		resetTokenExpiration: { $gt: Date.now() } // $gt = greater
-	})
-		.then(user => {
-			let message = req.flash("error");
-			if (message.length > 0) {
-				message = message[0];
-			} else {
-				message = null;
-			}
-			res.render("auth/new-password", {
-				path: "/new-password",
-				pageTitle: "New Password",
-				errorMessage: message,
-				userId: user._id.toString(),
-				passwordToken: token
-			});
-		})
-		.catch(err => {
-			const error = new Error(err);
-			error.httpStatusCode = 500;
-			return next(error);
+
+	try {
+		const user = await User.findOne({
+			resetToken: token,
+			resetTokenExpiration: { $gt: Date.now() } // $gt = greater
 		});
+
+		let message = req.flash("error");
+		if (message.length > 0) {
+			message = message[0];
+		} else {
+			message = null;
+		}
+		res.render("auth/new-password", {
+			path: "/new-password",
+			pageTitle: "New Password",
+			errorMessage: message,
+			userId: user._id.toString(),
+			passwordToken: token
+		});
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
 };
 
+// TODO: Turn Async-Await - Post New Password To Server
 exports.postNewPassword = (req, res, next) => {
 	const newPassword = req.body.password;
 	const userId = req.body.userId;

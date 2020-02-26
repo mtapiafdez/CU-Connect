@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// Chat Blueprint
 const chatSchema = new Schema({
 	messages: [
 		{

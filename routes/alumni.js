@@ -1,19 +1,46 @@
 const express = require("express");
+const isAuth = require("../middleware/is-auth");
+const { body } = require("express-validator");
 
 const alumniController = require("../controllers/alumni");
-const isAuth = require("../middleware/is-auth");
 
 const router = express.Router();
 
-// GET => Me Page
-router.get("/me", isAuth, alumniController.getMe);
+//! ME
+// GET => /me
+router.get("/me", isAuth.Alumni, alumniController.getMe);
+
+// GET => /messages
+router.get("/messages", isAuth.Alumni, alumniController.getMessages);
 
 // GET-POST => Update-Info
-router.get("/update-info", isAuth, alumniController.getUpdate);
-router.post("/update-info", isAuth, alumniController.postUpdate); // TODO: Change to Put
+router.get("/update-info", isAuth.Alumni, alumniController.getUpdate);
+router.post("/update-info", isAuth.Alumni, alumniController.postUpdate);
 
-// GET-POST => Request-Event
-router.get("/request-event", alumniController.getEventRequest);
-router.post("/request-event", alumniController.postEventRequest);
+// GET => /reports
+router.get("/reports", isAuth.Alumni, alumniController.getReports);
+
+//! EVENT
+// GET-POST => /request-event
+router.get("/request-event", isAuth.Alumni, alumniController.getRequestEvent);
+router.post("/request-event", isAuth.Alumni, alumniController.postEventRequest);
+
+// GET => /requested-events
+router.get(
+	"/requested-events",
+	isAuth.Alumni,
+	alumniController.getRequestedEvents
+);
+
+// DELETE => /delete-requested/:reqEventId
+router.delete(
+	"/delete-requested/:reqEventId",
+	isAuth.Alumni,
+	alumniController.deleteRequestedEvent
+);
+
+//! CONNECT
+// GET => /connect
+router.get("/connect", isAuth.Alumni, alumniController.getConnect);
 
 module.exports = router;

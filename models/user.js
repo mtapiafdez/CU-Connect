@@ -2,6 +2,7 @@ const mongoose = require("mongoose");
 
 const Schema = mongoose.Schema;
 
+// User Blueprint
 const userSchema = new Schema({
 	firstName: {
 		type: String,
@@ -72,6 +73,10 @@ const userSchema = new Schema({
 		instagram: {
 			type: String
 		}
+	},
+	profileUrl: {
+		type: String,
+		default: ""
 	},
 	resetToken: String,
 	resetTokenExpiration: Date
