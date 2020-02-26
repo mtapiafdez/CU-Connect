@@ -4,21 +4,23 @@ Alumni portal for Cairn University
 
 ## TODO
 
-    ### Overview
-        -   Protect End-Points Routes, User Input Validation & Sanitization
-        -   First picture upload on registration
-        -   Image from server on update (clear)
-        -   Pagination on requested events / approved events
-        -   Continue to lay out features based on past projects
+### Overview
 
-    ### DATE: 2/26
-        -   (-) Complete Event Request Workflow
-            -   (X) Request Event
-            -   (X) Requested Events
-            -   (X) Add Event
-            -   (-) Approve Event
-        -   (-) HTML / CSS / JS Party (PUBLIC FOLDER IN DETAIL)
-        -   (-) Commit all
+    -   Protect End-Points Routes, User Input Validation & Sanitization
+    -   First picture upload on registration
+    -   Image from server on update (clear)
+    -   Pagination on requested events / approved events
+    -   Continue to lay out features based on past projects
+
+### DATE: 2/26
+
+    -   (-) Complete Event Request Workflow
+        -   (X) Request Event
+        -   (X) Requested Events
+        -   (X) Add Event
+        -   (-) Approve Event
+    -   (-) HTML / CSS / JS Party (PUBLIC FOLDER IN DETAIL)
+    -   (-) Commit all
 
 ## NOT INC (FUTURE):
 
