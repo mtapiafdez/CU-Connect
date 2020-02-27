@@ -25,7 +25,6 @@ const eventSchema = new Schema({
 		default: "PENDING",
 		required: true
 	},
-	// Relationship / Reference To User
 	userId: {
 		type: Schema.Types.ObjectId,
 		ref: "User",

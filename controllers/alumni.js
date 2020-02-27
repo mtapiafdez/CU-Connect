@@ -1,3 +1,4 @@
+// User/Event Model Mongoose
 const User = require("../models/user");
 const Event = require("../models/event");
 
@@ -34,7 +35,7 @@ exports.getUpdate = async (req, res, next) => {
 	} catch (err) {
 		const error = new Error(err);
 		error.httpStatusCode = 500;
-		return next(error);
+		throw error;
 	}
 };
 
@@ -111,7 +112,7 @@ exports.getRequestEvent = (req, res, next) => {
 };
 
 // Posts Request Event
-exports.postEventRequest = (req, res, next) => {
+exports.postEventRequest = async (req, res, next) => {
 	const eventName = req.body["event-name"];
 	const eventDate = req.body["event-date"];
 	const eventTime = Date(req.body["event-time"]);
@@ -125,7 +126,7 @@ exports.postEventRequest = (req, res, next) => {
 		userId: req.session.user._id
 	});
 
-	event.save();
+	await event.save();
 
 	res.redirect("/requested-events");
 };
@@ -156,7 +157,7 @@ exports.deleteRequestedEvent = async (req, res, next) => {
 			throw error;
 		}
 
-		const result = await Event.deleteOne({
+		await Event.deleteOne({
 			_id: reqEventId,
 			userId: req.user._id
 		});

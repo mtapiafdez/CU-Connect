@@ -58,7 +58,9 @@ const userSchema = new Schema({
 		required: true
 	},
 	type: {
-		type: String
+		type: String,
+		default: "alumni",
+		required: true
 	},
 	social: {
 		facebook: {

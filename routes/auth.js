@@ -8,10 +8,8 @@ const User = require("../models/user");
 const router = express.Router();
 
 //! LOGIN
-// GET => /login
+// GET-POST => /login
 router.get("/login", authController.getLogin);
-
-// POST => /login
 router.post(
 	"/login",
 	[
@@ -28,24 +26,21 @@ router.post(
 );
 
 //! SIGNUP
-// GET => /signup
+// GET-POST => /signup
 router.get("/signup", authController.getSignup);
-
-// POST => /signup
 router.post(
 	"/signup",
 	[
 		body("email")
 			.isEmail()
 			.withMessage("Please enter a valid email!")
-			.custom((value, { req }) => {
-				return User.findOne({ email: value }).then(userDoc => {
-					if (userDoc) {
-						return Promise.reject(
-							"E-mail exists already, please pick a different one."
-						);
-					}
-				});
+			.custom(async (value, { req }) => {
+				const userDoc = await User.findOne({ email: value });
+				if (userDoc) {
+					return Promise.reject(
+						"E-mail exists already, please pick a different one."
+					);
+				}
 			})
 			.normalizeEmail(),
 		body(
@@ -72,7 +67,7 @@ router.post(
 router.post("/logout", isAuth.General, authController.postLogout);
 
 //! PASSWORD REST
-// GET-POST => /reset & /reset/:token
+// GET-POST => /reset & GET /reset/:token
 router.get("/reset", authController.getReset);
 router.post("/reset", authController.postReset);
 router.get("/reset/:token", authController.getNewPassword);

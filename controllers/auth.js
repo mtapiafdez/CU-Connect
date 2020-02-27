@@ -5,6 +5,7 @@ const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
 const { validationResult } = require("express-validator");
 
+// User Model Mongoose
 const User = require("../models/user");
 
 const transporter = nodemailer.createTransport(
@@ -93,11 +94,6 @@ exports.postLogin = async (req, res, next) => {
 			validationErrors: []
 		});
 	} catch (err) {
-		// .catch(err => {
-		// 	console.log(err);
-		// 	res.redirect("/login");
-		// });
-
 		const error = new Error(err);
 		error.httpStatusCode = 500;
 		throw error;
@@ -190,8 +186,7 @@ exports.postSignup = async (req, res, next) => {
 			major: major,
 			occupation: occupation,
 			company: company,
-			password: hashedPassword,
-			type: "alumni"
+			password: hashedPassword
 		});
 		await user.save();
 
@@ -232,43 +227,43 @@ exports.getReset = (req, res, next) => {
 	});
 };
 
-// TODO: Turn Async-Await - Post Reset To Server
+// Post Reset To Server
 exports.postReset = (req, res, next) => {
-	crypto.randomBytes(32, (err, buffer) => {
+	crypto.randomBytes(32, async (err, buffer) => {
 		if (err) {
 			return res.redirect("/reset");
 		}
 		// Turn Buffer Into String
 		const token = buffer.toString("hex");
-		User.findOne({ email: req.body.email })
-			.then(user => {
-				if (!user) {
-					req.flash("error", "No account with that email found.");
-					return res.redirect("/reset");
-				}
-				user.resetToken = token;
-				user.resetTokenExpiration = Date.now() + 3600000;
-				return user.save();
-			})
-			.then(result => {
-				if (result) {
-					res.redirect("/");
-					transporter.sendMail({
-						to: req.body.email,
-						from: "admin@cu-connect.com",
-						subject: "Password Reset",
-						html: `
+
+		try {
+			const user = await User.findOne({ email: req.body.email });
+
+			if (!user) {
+				req.flash("error", "No account with that email found.");
+				return res.redirect("/reset");
+			}
+			user.resetToken = token;
+			user.resetTokenExpiration = Date.now() + 3600000;
+			const result = await user.save();
+
+			if (result) {
+				res.redirect("/");
+				transporter.sendMail({
+					to: req.body.email,
+					from: "admin@cu-connect.com",
+					subject: "Password Reset",
+					html: `
                             <p>You requested a password reset</p>
                             <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
                         `
-					});
-				}
-			})
-			.catch(err => {
-				const error = new Error(err);
-				error.httpStatusCode = 500;
-				return next(error);
-			});
+				});
+			}
+		} catch (err) {
+			const error = new Error(err);
+			error.httpStatusCode = 500;
+			throw error;
+		}
 	});
 };
 
@@ -302,34 +297,30 @@ exports.getNewPassword = async (req, res, next) => {
 	}
 };
 
-// TODO: Turn Async-Await - Post New Password To Server
-exports.postNewPassword = (req, res, next) => {
+// Post New Password To Server
+exports.postNewPassword = async (req, res, next) => {
 	const newPassword = req.body.password;
 	const userId = req.body.userId;
 	const passwordToken = req.body.passwordToken;
-	let resetUser;
 
-	User.findOne({
-		resetToken: passwordToken,
-		resetTokenExpiration: { $gt: Date.now() },
-		_id: userId
-	})
-		.then(user => {
-			resetUser = user;
-			return bcrypt.hash(newPassword, 12);
-		})
-		.then(hashedPassword => {
-			resetUser.password = hashedPassword;
-			resetUser.resetToken = undefined;
-			resetUser.resetTokenExpiration = undefined;
-			return resetUser.save();
-		})
-		.then(result => {
-			res.redirect("/login");
-		})
-		.catch(err => {
-			const error = new Error(err);
-			error.httpStatusCode = 500;
-			return next(error);
+	try {
+		const user = await User.findOne({
+			resetToken: passwordToken,
+			resetTokenExpiration: { $gt: Date.now() },
+			_id: userId
 		});
+
+		const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+		user.password = hashedPassword;
+		user.resetToken = undefined;
+		user.resetTokenExpiration = undefined;
+		await user.save();
+
+		res.redirect("/login");
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
 };

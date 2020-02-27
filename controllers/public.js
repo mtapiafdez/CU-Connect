@@ -1,3 +1,4 @@
+// Event Model Mongoose
 const Event = require("../models/event");
 
 // Returns Index View

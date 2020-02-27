@@ -7,10 +7,10 @@ const studentController = require("../controllers/student");
 const router = express.Router();
 
 //! ME
-// GET => /me-student
+// GET => /student-me
 router.get("/student-me", isAuth.Student, studentController.getStudentMe);
 
-// GET => /messages-student
+// GET => /student-messages
 router.get(
 	"/student-messages",
 	isAuth.Student,

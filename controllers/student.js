@@ -10,7 +10,7 @@ exports.getStudentMe = (req, res, next) => {
 exports.getStudentMessages = (req, res, next) => {
 	res.render("alumni-student/messages", {
 		path: "/me",
-		pageTitle: "Student Messages"
+		pageTitle: "Messages"
 	});
 };
 

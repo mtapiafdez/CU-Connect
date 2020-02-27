@@ -1,3 +1,4 @@
+// Event Model Mongoose
 const Event = require("../models/event");
 
 // Returns Donate Metrics View
@@ -44,12 +45,18 @@ exports.postAddEvent = async (req, res, next) => {
 
 // Returns Event Approval View
 exports.getEventApproval = async (req, res, next) => {
-	const events = await Event.find({ approved: "PENDING" });
-	res.render("admin/event-approval", {
-		path: "/events",
-		pageTitle: "Event Approval",
-		events: events
-	});
+	try {
+		const events = await Event.find({ approved: "PENDING" });
+		res.render("admin/event-approval", {
+			path: "/events",
+			pageTitle: "Event Approval",
+			events: events
+		});
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
 };
 
 // Patch Event Approval Flag
