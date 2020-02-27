@@ -1,10 +1,6 @@
 # C.U - Connect
 
----
-
 **Description:** Alumni portal for Cairn University. Built with Node.js & MongoDB
-
----
 
 ## TODO:
 
@@ -22,13 +18,9 @@
 -   () Continue To Lay Out Features Based On Past Projects
 -   () On Event Approval / Rejection - Send Email!
 
----
-
 ## FINAL CHECK:
 
 -   () Test & Walk Through All Controllers
-
----
 
 ## TO INC (FUTURE):
 
@@ -41,12 +33,8 @@
     -   () Generate Reports
     -   () Requested Events / Approve Events
 
----
-
 ### NOTES:
 
 -   https://stackfame.com/mongodb-chat-schema-mongoose-chat-schema-chat-application
 -   https://stackoverflow.com/questions/26936645/mongoose-private-chat-message-model
 -   https://stackoverflow.com/questions/7340300/a-tag-as-a-submit-button/7340340
-
----
