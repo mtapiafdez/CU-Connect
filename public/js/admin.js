@@ -1,4 +1,4 @@
-//
+// Process Event Request Async Function
 const processRequest = async (btn, type) => {
 	const reqEventId = btn.parentNode.querySelector("[name=reqEventId]").value;
 	const csrf = btn.parentNode.querySelector("[name=_csrf").value;

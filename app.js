@@ -26,8 +26,10 @@ const studentRoutes = require("./routes/student");
 const errorRoutes = require("./routes/error");
 const errorController = require("./controllers/error");
 
-// Declare Mongo URI - Add URI
-const MONGODB_URI = "";
+// Hello CodeNet
+// Declare Mongo URI
+const MONGODB_URI =
+	"mongodb+srv://mtapiafdez:MiguelTapia@cu-connect-main-eipxr.mongodb.net/cu-connect";
 
 // Instantiate MongoDBStore & Initialize CSRF Protection
 const store = new MongoDBStore({
@@ -76,7 +78,7 @@ app.use(
 );
 app.use(
 	session({
-		secret: "",
+		secret: "Secret Hash Text",
 		resave: false,
 		saveUninitialized: false,
 		store: store
@@ -126,6 +128,12 @@ app.use(errorController.get404);
 
 // Special Middleware That Manages Errors
 app.use((error, req, res, next) => {
+	// console.log(error);
+	// const status = error.statusCode || 500;
+	// const message = error.message;
+	// const data = error.data;
+	// res.status(status).json({ message: message, data: data });
+
 	res.status(500).render("500", {
 		pageTitle: "Error!",
 		path: "/500"
