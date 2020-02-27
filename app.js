@@ -28,8 +28,7 @@ const errorController = require("./controllers/error");
 
 // Hello CodeNet
 // Declare Mongo URI
-const MONGODB_URI =
-	"mongodb+srv://mtapiafdez:MiguelTapia@cu-connect-main-eipxr.mongodb.net/cu-connect";
+const MONGODB_URI = "";
 
 // Instantiate MongoDBStore & Initialize CSRF Protection
 const store = new MongoDBStore({
@@ -78,7 +77,7 @@ app.use(
 );
 app.use(
 	session({
-		secret: "Secret Hash Text",
+		secret: "",
 		resave: false,
 		saveUninitialized: false,
 		store: store
