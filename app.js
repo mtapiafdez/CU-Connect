@@ -26,7 +26,6 @@ const studentRoutes = require("./routes/student");
 const errorRoutes = require("./routes/error");
 const errorController = require("./controllers/error");
 
-// Hello CodeNet
 // Declare Mongo URI
 const MONGODB_URI = "";
 

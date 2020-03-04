@@ -4,6 +4,7 @@
 
 ## TODO:
 
+-   () Add File With Config, Keys, Etc
 -   () HTML / CSS / JS Party (PUBLIC FOLDER / VIEWS IN DETAIL)!!!
 -   () Fix File Upload Issue (First Upload On Signup, Clear Old On New)
 -   () Fix ClassYear In Signup To Work
