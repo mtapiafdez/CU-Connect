@@ -1,5 +1,5 @@
+const CONFIG = require("../util/config");
 const crypto = require("crypto");
-
 const bcrypt = require("bcryptjs");
 const nodemailer = require("nodemailer");
 const sendgridTransport = require("nodemailer-sendgrid-transport");
@@ -11,7 +11,7 @@ const User = require("../models/user");
 const transporter = nodemailer.createTransport(
 	sendgridTransport({
 		auth: {
-			api_key: ""
+			api_key: CONFIG.sendGridKey
 		}
 	})
 );

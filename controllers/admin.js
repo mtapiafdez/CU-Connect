@@ -1,5 +1,6 @@
-// Event Model Mongoose
+// Event, User Model Mongoose
 const Event = require("../models/event");
+const User = require("../models/user");
 
 // Returns Donate Metrics View
 exports.getDonateMetrics = (req, res, next) => {
@@ -88,6 +89,37 @@ exports.getMasterSearch = (req, res, next) => {
 		path: "/alumni",
 		pageTitle: "Master Search"
 	});
+};
+
+// Gets Alumni By Filter
+exports.getAlumni = async (req, res, next) => {
+	const firstName = req.query.firstName;
+	const lastName = req.query.lastName;
+	const email = req.query.email;
+	const classOf = req.query.classOf;
+	const major = req.query.major;
+
+	let query = {};
+
+	if (firstName) {
+		query["firstName"] = firstName;
+	}
+
+	if (major) {
+		query["major"] = major;
+	}
+
+	try {
+		const alumni = await User.find(query).select(
+			"-_id -password -resetToken -resetTokenExpiration"
+		);
+
+		res.status(200).json(alumni);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
 };
 
 // Returns Add News View

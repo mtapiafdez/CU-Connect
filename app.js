@@ -1,4 +1,5 @@
 // Import Packages
+const CONFIG = require("./util/config");
 const path = require("path");
 const express = require("express");
 const bodyParser = require("body-parser");
@@ -27,7 +28,7 @@ const errorRoutes = require("./routes/error");
 const errorController = require("./controllers/error");
 
 // Declare Mongo URI
-const MONGODB_URI = "";
+const MONGODB_URI = CONFIG.mongoURI;
 
 // Instantiate MongoDBStore & Initialize CSRF Protection
 const store = new MongoDBStore({
@@ -76,7 +77,7 @@ app.use(
 );
 app.use(
 	session({
-		secret: "",
+		secret: CONFIG.sessionSecret,
 		resave: false,
 		saveUninitialized: false,
 		store: store

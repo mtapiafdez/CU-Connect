@@ -5,16 +5,27 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main>
-        <h1 class="main-header">Home</h1>
+    <main class="main-container">
+        <div class="home-info">
+            <div class="home-info__boxes">
+                <h3>Events</h3>
+            </div>
+            <div class="home-info__boxes">
+                <h3>Info</h3>
+            </div>
+            <div class="home-info__boxes">
+                <h3>Others</h3>
+            </div>
+        </div>
+        
         <% if (userType === "alumni") { %>
-            <h2>Alumni Loaded</h2>
+            <h2 style="text-align: center;">Home Loaded: Alumni</h2>
         <% } else if (userType === "admin") { %>
-            <h2>Admin Loaded</h2>
+            <h2 style="text-align: center;">Home Loaded: Admin</h2>
         <% } else if (userType === "student") { %>
-            <h2>Student Loaded</h2>
+            <h2 style="text-align: center;">Home Loaded: Student</h2>
         <% } else { %>
-            <h2>Public Loaded</h2>
+            <h2 style="text-align: center;">Home Loaded: Public</h2>
         <% } %>
     </main>
 

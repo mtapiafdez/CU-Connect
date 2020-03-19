@@ -1,42 +1,44 @@
 <%- include("../includes/head.ejs") %>
 
-    <link rel="stylesheet" type="text/css" href="/css/forms.css">
-    <link rel="stylesheet" type="text/css" href="/css/auth.css">
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main class="container">
+    <main class="main-container">
         <h1 class="main-header">Login</h1>
-        <form class="login-form" action="/login" method="POST">
-            <div class="form-control">
+        <form class="auth-container" action="/login" method="POST">
+            <div class="form-group">
                 <label for="email">E-Mail</label>
                 <input 
-                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : ''%>"
+                    class="<%= validationErrors.find(e => e.param === 'email') ? ' form-control invalid' : 'form-control'%>"
                     type="email"    
                     name="email" 
                     id="email" 
                     value="<%= oldInput.email %>"
+                    required
                 >
             </div>
-            <div class="form-control">
+            <div class="form-group">
                 <label for="password">Password</label>
                 <input 
-                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : ''%>"
+                    class="<%= validationErrors.find(e => e.param === 'password') ? 'form-control invalid' : 'form-control'%>"
                     type="password" 
                     name="password" 
                     id="password" 
                     value="<%= oldInput.password %>"
+                    required
                 > 
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <div class="login-form-actions">
-                <button class="btn btn--main" type="submit">Login</button>
-                <a class="btn btn--main" href="/reset">Reset Password</a>
+            <div class="auth-container__actions">
+                <button class="btn btn-outline-secondary" type="submit">Login</button>
+                <a role="button" class="btn btn-outline-secondary" href="/reset">Reset Password</a>
             </div>
             <% if (errorMessage) { %>
-                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <div class="alert alert-danger mt-3" role="alert">
+                    <%= errorMessage %>
+                </div>
             <% } %>
         </form>
     </main>

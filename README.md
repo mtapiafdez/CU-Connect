@@ -4,7 +4,7 @@
 
 ## TODO:
 
--   () Add File With Config, Keys, Etc
+-   (X) Add File With Config, Keys, Etc
 -   () HTML / CSS / JS Party (PUBLIC FOLDER / VIEWS IN DETAIL)!!!
 -   () Fix File Upload Issue (First Upload On Signup, Clear Old On New)
 -   () Fix ClassYear In Signup To Work
@@ -24,7 +24,7 @@
     -   It Looks Like New Error Objects Don't Need To Be Created Since, They Are Already There. Just Next! Only Throw When I Create Them.
     -   Throw Inside Try Ends In Bottom Catch! (REST GetPost Controller)
 -   () Parse Event Date And Time Correctly
--   () Pagination:
+-   () Pagination: Use Pagination Bootstrap 4
     -   Requested Events, Approve Events, Alumni Management (Search), Connect (Search), Alumni News, Pending Connections
 -   () Use Cookies For Something Fun!
 -   () Continue To Lay Out Features Based On Past Projects
@@ -32,6 +32,10 @@
 -   () Make Sure All Pages Are One Page With Inner Scroll
 -   () On Event Approval / Rejection - Send Email!
 -   () Responsiveness And Submenu On Mobile
+-   () Boostrap Menu
+-   () Have Forward And Backwards On Signup
+-   () Check all wireframes
+-   () Favicon / SEO, etc
 
 ## FINAL CHECK:
 

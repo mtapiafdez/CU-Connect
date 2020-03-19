@@ -7,42 +7,46 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
     
-    <main>
+    <main class="main-container"> 
         <h1 class="main-header">Request Event</h1>
-        <form class="request-event-container" action="/request-event" method="POST">
-            <div class="form-control">
+        <form class="auth-container mt-3" action="/request-event" method="POST">
+            <div class="form-group">
                 <input
+                    class="form-control"
                     type="text"
                     name="event-name"
                     id="event-name"
                     placeholder="Event Name"
                 >
             </div>
-            <div class="form-control">
+            <div class="form-group">
                 <input
-                    class="form-control__time"
+                    class="form-control"
                     type="date"
                     name="event-date"
                     id="event-date"
                     placeholder="MM-DD-YY"
                 >
+            </div>
+            <div class="form-group">
                 <input
-                    class="form-control__time"
+                    class="form-control"
                     type="time"
                     name="event-time"
                     id="event-time"
                 >
             </div>
-            <div class="form-control">
+            <div class="form-group">
                 <textarea 
+                    class="form-control"
                     name="event-description" 
                     id="event-description" 
                     rows="5"
                 ></textarea>
             </div>
-            <div class="form-control">
+            <div class="form-group">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                <button class="btn btn--main" type="submit">Submit Request</button>
+                <button class="btn btn-block btn-outline-secondary" type="submit">Submit Request</button>
             </div>
         </form>
     </main>

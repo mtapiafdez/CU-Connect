@@ -1,16 +1,18 @@
-<nav class="navbar">
-	<a href="http://cairn.edu" class="navbar__logo">
+<nav class="navbar-main">
+	<a href="http://cairn.edu" class="navbar-main__logo">
 		<img src="/img/CairnLogoWhiteTrim.png" />
 	</a>
-	<ul class="navbar__menu">
+	<ul class="navbar-main__menu">
 		<li>
-			<a class="<%= path === '/' ? 'navbar__active' : '' %>" href="/"
+			<a class="<%= path === '/' ? 'navbar-main__active' : '' %>" href="/"
 				>Home
 			</a>
 		</li>
 		<% if (userType === "alumni") { %>
 		<li class="dropdown">
-			<a class="<%= path === '/me' ? 'navbar__active' : '' %>" href="#"
+			<a
+				class="<%= path === '/me' ? 'navbar-main__active' : '' %>"
+				href="#"
 				>Me
 			</a>
 			<div class="dropdown-content">
@@ -22,7 +24,7 @@
 		</li>
 		<li class="dropdown">
 			<a
-				class="<%= path === '/events' ? 'navbar__active' : '' %>"
+				class="<%= path === '/events' ? 'navbar-main__active' : '' %>"
 				href="#"
 				>Events
 			</a>
@@ -34,14 +36,14 @@
 		</li>
 		<li>
 			<a
-				class="<%= path === '/connect' ? 'navbar__active' : '' %>"
+				class="<%= path === '/connect' ? 'navbar-main__active' : '' %>"
 				href="/connect"
 				>Connect
 			</a>
 		</li>
 		<li>
 			<a
-				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
+				class="<%= path === '/donate' ? 'navbar-main__active' : '' %>"
 				href="https://cairn.edu/give/online/"
 				target="_blank"
 				>Donate
@@ -50,7 +52,7 @@
 		<% } else if (userType === "admin") { %>
 		<li class="dropdown">
 			<a
-				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
+				class="<%= path === '/donate' ? 'navbar-main__active' : '' %>"
 				href="#"
 				>Donate
 			</a>
@@ -61,7 +63,7 @@
 		</li>
 		<li class="dropdown">
 			<a
-				class="<%= path === '/events' ? 'navbar__active' : '' %>"
+				class="<%= path === '/events' ? 'navbar-main__active' : '' %>"
 				href="#"
 				>Events
 			</a>
@@ -73,7 +75,7 @@
 		</li>
 		<li class="dropdown">
 			<a
-				class="<%= path === '/alumni' ? 'navbar__active' : '' %>"
+				class="<%= path === '/alumni' ? 'navbar-main__active' : '' %>"
 				href="#"
 				>Alumni
 			</a>
@@ -84,7 +86,7 @@
 		</li>
 		<li class="dropdown">
 			<a
-				class="<%= path === '/management' ? 'navbar__active' : '' %>"
+				class="<%= path === '/management' ? 'navbar-main__active' : '' %>"
 				href="#"
 				>Management
 			</a>
@@ -94,7 +96,9 @@
 		</li>
 		<% } else if (userType === "student") { %>
 		<li class="dropdown">
-			<a class="<%= path === '/me' ? 'navbar__active' : '' %>" href="/#"
+			<a
+				class="<%= path === '/me' ? 'navbar-main__active' : '' %>"
+				href="/#"
 				>Me
 			</a>
 			<div class="dropdown-content">
@@ -104,21 +108,21 @@
 		</li>
 		<li>
 			<a
-				class="<%= path === '/events' ? 'navbar__active' : '' %>"
+				class="<%= path === '/events' ? 'navbar-main__active' : '' %>"
 				href="/events"
 				>Events
 			</a>
 		</li>
 		<li>
 			<a
-				class="<%= path === '/connect' ? 'navbar__active' : '' %>"
+				class="<%= path === '/connect' ? 'navbar-main__active' : '' %>"
 				href="/student-connect"
 				>Connect
 			</a>
 		</li>
 		<li>
 			<a
-				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
+				class="<%= path === '/donate' ? 'navbar-main__active' : '' %>"
 				href="https://cairn.edu/give/online/"
 				target="_blank"
 				>Donate
@@ -127,14 +131,14 @@
 		<% } else { %>
 		<li>
 			<a
-				class="<%= path === '/events' ? 'navbar__active' : '' %>"
+				class="<%= path === '/events' ? 'navbar-main__active' : '' %>"
 				href="/events"
 				>Events
 			</a>
 		</li>
 		<li>
 			<a
-				class="<%= path === '/donate' ? 'navbar__active' : '' %>"
+				class="<%= path === '/donate' ? 'navbar-main__active' : '' %>"
 				href="https://cairn.edu/give/online/"
 				target="_blank"
 				>Donate
@@ -143,14 +147,14 @@
 		<% } %> <% if (!isAuthenticated) { %>
 		<li>
 			<a
-				class="<%= path === '/login' ? 'navbar__active' : '' %>"
+				class="<%= path === '/login' ? 'navbar-main__active' : '' %>"
 				href="/login"
 				>Login
 			</a>
 		</li>
 		<li>
 			<a
-				class="<%= path === '/signup' ? 'navbar__active' : '' %>"
+				class="<%= path === '/signup' ? 'navbar-main__active' : '' %>"
 				href="/signup"
 				>Signup
 			</a>

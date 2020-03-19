@@ -1,173 +1,201 @@
 <%- include("../includes/head.ejs") %>
 
-    <link rel="stylesheet" type="text/css" href="/css/forms.css">
-    <link rel="stylesheet" type="text/css" href="/css/auth.css">
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main class="container">
+    <main class="main-container">
         <h1 class="main-header">Signup</h1>
-        <form class="login-form" action="/signup" method="POST">
-            <div class="form-control">
-                <label for="firstName">First Name</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'firstName') ? 'invalid' : ''%>"
-                    type="text"    
-                    name="firstName" 
-                    id="firstName" 
-                    value="<%= oldInput.firstName %>"
-                >       
+        <form id="signup-form" class="auth-container" action="/signup" method="POST">
+            <div class="signup-section-1">
+                <div class="form-group">
+                    <label for="firstName">First Name</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'firstName') ? 'form-control invalid' : 'form-control'%>"
+                        type="text"    
+                        name="firstName" 
+                        id="firstName" 
+                        value="<%= oldInput.firstName %>"
+                        required
+                    >       
+                </div>
+                <div class="form-group">
+                    <label for="lastName">Last Name</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'lastName') ? 'form-control invalid' : 'form-control'%>"
+                        type="text"    
+                        name="lastName" 
+                        id="lastName" 
+                        value="<%= oldInput.lastName %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="email">E-Mail</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'email') ? 'form-control invalid' : 'form-control'%>"
+                        type="email"    
+                        name="email" 
+                        id="email" 
+                        value="<%= oldInput.email %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="phone">Phone</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'phone') ? 'form-control invalid' : 'form-control'%>"
+                        type="tel"
+                        name="phone" 
+                        pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
+                        id="phone" 
+                        value="<%= oldInput.phone %>"
+                        maxlength="50"
+                        placeholder="e.g. 555-555-5555"
+                        required
+                    >
+                </div>
             </div>
-            <div class="form-control">
-                <label for="lastName">Last Name</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'lastName') ? 'invalid' : ''%>"
-                    type="text"    
-                    name="lastName" 
-                    id="lastName" 
-                    value="<%= oldInput.lastName %>"
-                >
+
+            <div class="signup-section-2 hide-section">
+                <div class="form-group">
+                    <label for="addressLineMain">Address 1</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'addressLineMain') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        name="addressLineMain" 
+                        id="addressLineMain" 
+                        value="<%= oldInput.addressLineMain %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="addressLineSecondary">Address 2</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'addressLineSecondary') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        name="addressLineSecondary" 
+                        id="addressLineSecondary" 
+                        value="<%= oldInput.addressLineSecondary %>"
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="city">City</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'city') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        name="city" 
+                        id="city" 
+                        value="<%= oldInput.city %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'state') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        name="state" 
+                        id="state" 
+                        value="<%= oldInput.state %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="zip">Zip</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'zip') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        pattern="[0-9]{5}"
+                        name="zip" 
+                        id="zip" 
+                        value="<%= oldInput.zip %>"
+                        required
+                    >
+                </div>
             </div>
-            <div class="form-control">
-                <label for="email">E-Mail</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'email') ? 'invalid' : ''%>"
-                    type="email"    
-                    name="email" 
-                    id="email" 
-                    value="<%= oldInput.email %>"
-                >
+            
+            <div class="signup-section-3 hide-section">
+                <div class="form-group">
+                    <label for="classYear">Class</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'classYear') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"
+                        name="classYear" 
+                        id="classYear" 
+                        value="<%= oldInput.classYear %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="major">Major</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'major') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        name="major" 
+                        id="major" 
+                        value="<%= oldInput.major %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="occupation">Occupation</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'occupation') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        name="occupation" 
+                        id="occupation" 
+                        value="<%= oldInput.occupation %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="company">Company</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'company') ? 'form-control invalid' : 'form-control'%>" 
+                        type="text"    
+                        name="company" 
+                        id="company" 
+                        value="<%= oldInput.company %>"
+                    >
+                </div>
             </div>
-            <div class="form-control">
-                <label for="phone">Phone</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'phone') ? 'invalid' : ''%>"
-                    type="tel"
-                    name="phone" 
-                    pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
-                    id="phone" 
-                    value="<%= oldInput.phone %>"
-                    maxlength="50"
-                    placeholder="e.g. 555-555-5555"
-                >
-            </div>
-            <div class="form-control">
-                <label for="addressLineMain">Address 1</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'addressLineMain') ? 'invalid' : ''%>" 
-                    type="text"    
-                    name="addressLineMain" 
-                    id="addressLineMain" 
-                    value="<%= oldInput.addressLineMain %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="addressLineSecondary">Address 2</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'addressLineSecondary') ? 'invalid' : ''%>" 
-                    type="text"    
-                    name="addressLineSecondary" 
-                    id="addressLineSecondary" 
-                    value="<%= oldInput.addressLineSecondary %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="city">City</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'city') ? 'invalid' : ''%>" 
-                    type="text"    
-                    name="city" 
-                    id="city" 
-                    value="<%= oldInput.city %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="state">State</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'state') ? 'invalid' : ''%>" 
-                    type="text"    
-                    name="state" 
-                    id="state" 
-                    value="<%= oldInput.state %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="zip">Zip</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'zip') ? 'invalid' : ''%>" 
-                    type="text"    
-                    pattern="[0-9]{5}"
-                    name="zip" 
-                    id="zip" 
-                    value="<%= oldInput.zip %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="classYear">Class</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'classYear') ? 'invalid' : ''%>" 
-                    type="text"
-                    name="classYear" 
-                    id="classYear" 
-                    value="<%= oldInput.classYear %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="major">Major</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'major') ? 'invalid' : ''%>" 
-                    type="text"    
-                    name="major" 
-                    id="major" 
-                    value="<%= oldInput.major %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="occupation">Occupation</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'occupation') ? 'invalid' : ''%>" 
-                    type="text"    
-                    name="occupation" 
-                    id="occupation" 
-                    value="<%= oldInput.occupation %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="company">Company</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'company') ? 'invalid' : ''%>" 
-                    type="text"    
-                    name="company" 
-                    id="company" 
-                    value="<%= oldInput.company %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="password">Password</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'password') ? 'invalid' : ''%>" 
-                    type="password" 
-                    name="password" 
-                    id="password"
-                    value="<%= oldInput.password %>"
-                >
-            </div>
-            <div class="form-control">
-                <label for="confirmPassword">Confirm Password</label>
-                <input 
-                    class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? 'invalid' : ''%>" 
-                    type="password" 
-                    name="confirmPassword" 
-                    id="confirmPassword" 
-                    value="<%= oldInput.confirmPassword %>"
-                >
-            </div>
+
+            <div class="signup-section-4 hide-section">
+                <div class="form-group">
+                    <label for="password">Password</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'password') ? 'form-control invalid' : 'form-control'%>" 
+                        type="password" 
+                        name="password" 
+                        id="password"
+                        value="<%= oldInput.password %>"
+                        required
+                    >
+                </div>
+                <div class="form-group">
+                    <label for="confirmPassword">Confirm Password</label>
+                    <input 
+                        class="<%= validationErrors.find(e => e.param === 'confirmPassword') ? 'form-control invalid' : 'form-control'%>" 
+                        type="password" 
+                        name="confirmPassword" 
+                        id="confirmPassword" 
+                        value="<%= oldInput.confirmPassword %>"
+                        required
+                    >
+                </div>
+            </div>            
+            
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <button class="btn btn--main" type="submit">Sign Up!</button>
+            <div class="auth-container__actions">
+                <button id="signup-button-prev" class="btn btn-outline-secondary hide-section" type="button">Previous</button>
+                <button id="signup-button-next" class="btn btn-outline-secondary d-block ml-auto" type="button" page="1">Next</button>
+            </div>
             <% if (errorMessage) { %>
-                <div class="user-message user-message--error"><%= errorMessage %></div>
+                <div class="alert alert-danger mt-3" role="alert">
+                    <%= errorMessage %>
+                </div>
             <% } %>
         </form>
     </main>

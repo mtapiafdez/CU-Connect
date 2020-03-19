@@ -34,6 +34,7 @@ router.get(
 	isAuth.Admin,
 	adminController.getMasterSearch
 );
+router.get("/alumni/getAlumni", isAuth.Admin, adminController.getAlumni);
 
 // GET => /admin/alumni/add-news
 router.get("/alumni/add-news", isAuth.Admin, adminController.getAddNews);

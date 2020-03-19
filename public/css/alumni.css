@@ -1,21 +1,17 @@
-.update-container {
+/* .update-container {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 }
 
 .update-container__profile {
-	/* border: 1px solid goldenrod; */
 	padding: 1em;
 }
 
 .update-container__update {
-	/* border: 1px solid salmon; */
 	padding: 2em;
 }
 
-/* Update Container Card */
 .update-container__card {
-	/* border: 1px solid blue; */
 	display: flex;
 	flex-direction: column;
 	align-items: center;
@@ -45,4 +41,4 @@
 	.update-container {
 		grid-template-columns: 1fr;
 	}
-}
+} */
