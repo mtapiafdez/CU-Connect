@@ -137,10 +137,16 @@ exports.postSignup = async (req, res, next) => {
 	const major = req.body.major;
 	const occupation = req.body.occupation;
 	const company = req.body.company;
-
 	const password = req.body.password;
 
 	const errors = validationResult(req);
+
+	const image = req.file;
+	if (!image) {
+		return console.log("File is not an image");
+	}
+
+	const profileUrl = image.path;
 
 	if (!errors.isEmpty()) {
 		console.log(errors.array());
@@ -186,7 +192,8 @@ exports.postSignup = async (req, res, next) => {
 			major: major,
 			occupation: occupation,
 			company: company,
-			password: hashedPassword
+			password: hashedPassword,
+			profileUrl: profileUrl
 		});
 		await user.save();
 

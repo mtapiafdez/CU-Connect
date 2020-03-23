@@ -1,17 +1,18 @@
 <%- include("../includes/head.ejs") %>
 
-    <link rel="stylesheet" type="text/css" href="/css/forms.css">    
-    <link rel="stylesheet" type="text/css" href="/css/update-info.css">
+    <link rel="stylesheet" type="text/css" href="/css/alumni.css">
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
     
-    <main class="container update-container">
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
+    <main class="main-container update-container">
         <div class="update-container__profile">
             <div class="update-container__card">
                 <% if (userInfo.profileUrl !== '') { %>
-                    <img src="/<%= userInfo.profileUrl %>">
+                    <img class="update-image" src="/<%= userInfo.profileUrl %>">
                 <% } else { %> 
                     <img src="/img/avatar.jpg">
                 <% } %>
@@ -36,9 +37,10 @@
         </div>
         <div class="update-container__update">
             <form action="/update-info" method="POST" enctype="multipart/form-data"> 
-                <div class="form-control">
+                <div class="form-group">
                     <label for="phone">Phone</label>
                     <input 
+                        class="form-control"
                         type="tel"
                         name="phone" 
                         pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}"
@@ -47,45 +49,50 @@
                         maxlength="50"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="addressLineMain">Address 1</label>
                     <input 
+                        class="form-control"
                         type="text"    
                         name="addressLineMain" 
                         id="addressLineMain" 
                         value="<%= userInfo.addressLineMain %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="addressLineSecondary">Address 2</label>
                     <input 
+                        class="form-control"
                         type="text"    
                         name="addressLineSecondary" 
                         id="addressLineSecondary" 
                         value="<%= userInfo.addressLineSecondary %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="city">City</label>
                     <input 
+                        class="form-control"
                         type="text"    
                         name="city" 
                         id="city" 
                         value="<%= userInfo.city %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="state">State</label>
                     <input 
+                        class="form-control"
                         type="text"    
                         name="state" 
                         id="state" 
                         value="<%= userInfo.state %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="zip">Zip</label>
-                    <input 
+                    <input
+                        class="form-control" 
                         type="text"    
                         pattern="[0-9]{5}"
                         name="zip" 
@@ -93,45 +100,47 @@
                         value="<%= userInfo.zip %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="classYear">Class</label>
-                    <input 
+                    <input
+                        class="form-control" 
                         type="text"
                         name="classYear" 
                         id="classYear" 
                         value="<%= userInfo.classYear %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="major">Major</label>
                     <input 
+                        class="form-control"
                         type="text"    
                         name="major" 
                         id="major" 
                         value="<%= userInfo.major %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="occupation">Occupation</label>
-                    <input 
+                    <input class="form-control" 
                         type="text"    
                         name="occupation" 
                         id="occupation" 
                         value="<%= userInfo.occupation %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="company">Company</label>
-                    <input 
+                    <input class="form-control" 
                         type="text"    
                         name="company" 
                         id="company" 
                         value="<%= userInfo.company %>"
                     >
                 </div>
-                <div class="form-control">
+                <div class="form-group">
                     <label for="image">Image</label>
-                    <input 
+                    <input class="form-control" 
                         type="file"     
                         name="image" 
                         id="image" 
@@ -141,23 +150,25 @@
                 <br>
                     <hr>
                 <br>
-                <div class="form-control">
-                    <input type="text" name="facebook" id="facebook" placeholder="Facebook" value="<%= userInfo.social.facebook %>">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="facebook" id="facebook" placeholder="Facebook" value="<%= userInfo.social.facebook %>">
                 </div>
-                <div class="form-control">
-                    <input type="text" name="twitter" id="twitter" placeholder="Twitter" value="<%= userInfo.social.twitter %>">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="twitter" id="twitter" placeholder="Twitter" value="<%= userInfo.social.twitter %>">
                 </div>
-                <div class="form-control">
-                    <input type="text" name="linkedIn" id="linkedIn" placeholder="LinkedIn" value="<%= userInfo.social.linkedIn %>">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="linkedIn" id="linkedIn" placeholder="LinkedIn" value="<%= userInfo.social.linkedIn %>">
                 </div>
-                <div class="form-control">
-                    <input type="text" name="instagram" id="instagram" placeholder="Instagram" value="<%= userInfo.social.instagram %>">
+                <div class="form-group">
+                    <input class="form-control" type="text" name="instagram" id="instagram" placeholder="Instagram" value="<%= userInfo.social.instagram %>">
                 </div>
 
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                <button class="btn btn--main" type="submit">Update information</button>
+                <button class="btn btn-core" type="submit">Update information</button>
             </form>
         </div>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include('../includes/end.ejs') %>

@@ -5,9 +5,11 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
 
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
     <main class="main-container">
         <h1 class="main-header">Signup</h1>
-        <form id="signup-form" class="auth-container" action="/signup" method="POST">
+        <form id="signup-form" class="auth-container" action="/signup" method="POST" enctype="multipart/form-data">
             <div class="signup-section-1">
                 <div class="form-group">
                     <label for="firstName">First Name</label>
@@ -160,6 +162,15 @@
                         value="<%= oldInput.company %>"
                     >
                 </div>
+                <div class="form-group">
+                    <label for="image">Profile Image</label>
+                    <input
+                        class="<%= validationErrors.find(e => e.param === 'image') ? 'form-control invalid' : 'form-control'%>"
+                        type="file"
+                        name="image"
+                        id="image"
+                    />
+                </div>
             </div>
 
             <div class="signup-section-4 hide-section">
@@ -189,8 +200,8 @@
             
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="auth-container__actions">
-                <button id="signup-button-prev" class="btn btn-outline-secondary hide-section" type="button">Previous</button>
-                <button id="signup-button-next" class="btn btn-outline-secondary d-block ml-auto" type="button" page="1">Next</button>
+                <button id="signup-button-prev" class="btn btn-core hide-section" type="button">Previous</button>
+                <button id="signup-button-next" class="btn btn-core d-block ml-auto" type="button" page="1">Next</button>
             </div>
             <% if (errorMessage) { %>
                 <div class="alert alert-danger mt-3" role="alert">
@@ -199,5 +210,7 @@
             <% } %>
         </form>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include('../includes/end.ejs') %>

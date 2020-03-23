@@ -5,25 +5,29 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <div style="overflow-y: scroll; height: calc(100vh - 65px);">
+    <%- include("../includes/inner-scroll-start.ejs") %>
 
     <main class="main-container">
        <h1 class="main-header">Events</h1>
        <div class="mt-3">
-            <% for (let event of events) { %>
-                <div class="card my-3">
-                    <h5 class="card-header"><%= event.eventName %></h5>
-                    <div class="card-body">
-                        <h5 class="card-title"><%= event.eventDate %></h5>
-                        <p class="card-text"><%= event.eventDesc %></p>
-                        <p><%= event.eventTime %></p>
+           <% if (events.length > 0) { %>
+                <% for (let event of events) { %>
+                    <div class="card my-3">
+                        <h5 class="card-header"><%= event.eventName %></h5>
+                        <div class="card-body">
+                            <h5 class="card-title"><%= event.eventDate %></h5>
+                            <p class="card-text"><%= event.eventDesc %></p>
+                            <p><%= event.eventTime %></p>
+                        </div>
                     </div>
-                </div>
+                <% } %>
+            <% } else { %>
+                <h4 class="text-center mt-5">No events</h4>
             <% } %>
         </div>
     </main>
 
-    </div>
+    <%- include("../includes/inner-scroll-end.ejs") %> 
 
 <%- include('../includes/end.ejs') %>
 

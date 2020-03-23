@@ -1,12 +1,44 @@
 <%- include("../includes/head.ejs") %>
-
+    <link rel="stylesheet" type="text/css" href="/css/admin.css" />
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main>
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
+    <main class="main-container">
         <h1 class="main-header">Donate Metrics</h1>
+        <div class="row mt-3">
+            <div class="col-md-6">
+                <div class="card card-height-50">
+                    <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
+                        <h3 class="card-title">Donation Progression</h3>
+                        <h4 class="card-text text-danger">Line CHART</h4>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-6">
+                 <div class="card card-height-50">
+                    <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
+                        <h3 class="card-title">Campaign Goal</h3>
+                        <h4 class="card-text text-danger">$545,543</h4>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-4">
+            <div class="col-md-6">
+                <div class="card card-height-50">
+                   <div class="card-body text-center d-flex align-items-center justify-content-center flex-column">
+                       <h3 class="card-title">Donation by Month</h3>
+                       <h4 class="card-text text-danger">$23,434</h4>
+                   </div>
+               </div>
+           </div>
+        </div>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include("../includes/end.ejs") %>

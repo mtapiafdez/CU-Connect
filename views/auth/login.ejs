@@ -5,6 +5,8 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
 
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
     <main class="main-container">
         <h1 class="main-header">Login</h1>
         <form class="auth-container" action="/login" method="POST">
@@ -32,8 +34,8 @@
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
             <div class="auth-container__actions">
-                <button class="btn btn-outline-secondary" type="submit">Login</button>
-                <a role="button" class="btn btn-outline-secondary" href="/reset">Reset Password</a>
+                <button class="btn btn-core" type="submit">Login</button>
+                <a role="button" class="btn btn-core" href="/reset">Reset Password</a>
             </div>
             <% if (errorMessage) { %>
                 <div class="alert alert-danger mt-3" role="alert">
@@ -42,5 +44,7 @@
             <% } %>
         </form>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include('../includes/end.ejs') %>

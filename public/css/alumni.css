@@ -1,44 +1,151 @@
-/* .update-container {
+/* ===============================================
+                UPDATE DATA & ME
+===============================================*/
+.update-container,
+.me-container {
 	display: grid;
 	grid-template-columns: 1fr 1fr;
 }
 
-.update-container__profile {
+.update-container__profile,
+.me-container__profile {
 	padding: 1em;
 }
 
-.update-container__update {
+.update-container__update,
+.me-container__page {
 	padding: 2em;
 }
 
-.update-container__card {
+.update-container__card,
+.me-container__card {
 	display: flex;
 	flex-direction: column;
 	align-items: center;
 }
 
-.update-container__card img {
+.update-container__card img,
+.me-container__card img {
 	max-width: 100%;
 }
 
 .update-container__card h1,
 .update-container__card h3,
-.update-container__card h4 {
+.update-container__card h4,
+.me-container__card h1,
+.me-container__card h3,
+.me-container__card h4 {
 	font-weight: 300;
 	margin-top: 1em;
 }
 
-.form-control {
-	margin-bottom: 2em;
-}
-
-.btn--main {
-	display: inline-block;
-	margin-left: auto;
-}
-
 @media (max-width: 780px) {
-	.update-container {
+	.update-container,
+	.me-container {
 		grid-template-columns: 1fr;
 	}
-} */
+}
+
+/* ===============================================
+                ME
+===============================================*/
+/* Me Connections */
+.me-container__news {
+	height: 35vh;
+	min-height: 150px;
+	display: flex;
+	flex-direction: column;
+}
+
+.me-container__connections {
+	height: 35vh;
+	min-height: 150px;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.me-news,
+.me-connections {
+	overflow-y: auto;
+}
+
+.me-connection {
+	display: flex;
+	flex-flow: row wrap;
+	justify-content: space-between;
+	align-items: center;
+	margin-bottom: 1em;
+}
+
+.me-div-main {
+	flex: 1;
+}
+
+.me-div-secondary {
+	flex: 0 0 100px;
+}
+
+.me-connection div h3 {
+	flex: 1;
+	margin-bottom: 0;
+	font-weight: 300;
+}
+
+.me-connection div button {
+	flex: 0 0 50px;
+}
+
+/* Me Article */
+.me-article {
+	display: flex;
+	flex-direction: column;
+	margin-bottom: 1em;
+}
+
+.me-article header {
+	display: flex;
+	flex-flow: row wrap;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.me-image,
+.update-image {
+	height: 500px;
+	object-fit: cover;
+	object-position: 50% 50%;
+}
+
+/* ===============================================
+                CONNECT
+===============================================*/
+#connect-table-header th {
+	font-weight: 600;
+}
+
+#connect-payload tr:hover {
+	cursor: pointer;
+	background-color: #f4f4f4;
+}
+
+.connect-table-message {
+	flex: 1;
+	text-align: center;
+}
+
+/* ===============================================
+                REPORTS
+===============================================*/
+.reports-container {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	flex-flow: row wrap;
+	height: 100%;
+}
+
+.reports-container div {
+	flex-basis: 50%;
+	padding: 2em;
+}

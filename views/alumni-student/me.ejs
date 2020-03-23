@@ -1,12 +1,93 @@
 <%- include("../includes/head.ejs") %>
 
+    <link rel="stylesheet" type="text/css" href="/css/alumni.css">
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main>
-        <h1 class="main-header">Me</h1>
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
+    <main class="main-container me-container">
+        <div class="me-container__profile">
+            <div class="me-container__card">
+                <% if (userInfo.profileUrl !== '') { %>
+                    <img class="me-image" src="/<%= userInfo.profileUrl %>">
+                <% } else { %> 
+                    <img class="me-image" src="/img/avatar.jpg">
+                <% } %>
+                <h1>
+                    <%= userInfo.firstName %>
+                    <%= userInfo.lastName %> 
+                </h1>
+                <h3>
+                    <%= userInfo.addressLineMain %>
+                    <%= userInfo.addressLineSecondary %>
+                    <%= userInfo.city %>,
+                    <%= userInfo.state %>
+                </h3>
+                <h4>
+                    <%= userInfo.occupation %> @
+                    <%= userInfo.company %>
+                </h4>
+            </div>
+        </div>
+        <div class="me-container__page">
+            <% if (userInfo.type === "alumni" || userInfo.type === "admin") { %>
+            <div class="me-container__news mb-5">
+                <h1 class="main-header">Alumni News</h1>
+                <div class="me-news">
+                    <% if (articles.length > 0) { %>
+                        <% for (let article of articles) { %>
+                            <article class="me-article mr-2">
+                                <header>
+                                    <h4><%= article.articleName %></h4>
+                                    <h6>
+                                        <%= article.articleDate %>
+                                        <%= article.articleTime %>
+                                    </h6>
+                                </header>
+                                <p>
+                                    <%= article.articleDesc %>
+                                </p>   
+                            </article>
+                        <% } %>
+                    <% } else { %>
+                        <h4 class="text-center mt-5">No Articles</h4>
+                    <% } %>
+                </div>
+            </div>
+            <% } %>
+            <div class="me-container__connections">
+                <h1 class="main-header">Pending Connections</h1>
+                <div id="me-connections" class="me-connections">
+                    <% if (userInfo.connections.requests.length > 0) { %>
+                        <% for (let connection of userInfo.connections.requests) { %>
+                            <div class="me-connection mr-2">
+                                <div class="me-div-main">
+                                    <h3>
+                                        <%= connection.requestUser.firstName %>
+                                        <%= connection.requestUser.lastName %>
+                                    </h3>
+                                    <p class="mb-0"><%= connection.requestMessage %></p>
+                                </div>
+                                <div class="me-div-secondary">
+                                    <button onclick="manageConnectionRequest(this, '<%= connection.requestUser._id %>', 'ACCEPT');" class="btn btn-core mr-3">✓</button>
+                                    <button onclick="manageConnectionRequest(this, '<%= connection.requestUser._id %>', 'REJECT');" class="btn btn-core">☓</button>
+                                </div>
+                            </div>
+                        <% } %>
+                    <% } else { %>
+                        <h4 class="text-center mt-5">No Pending</h4>
+                    <% } %>
+                    <input id="connectCsrf" type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+                </div>
+            </div>
+        </div>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
+
+    <script src="/js/alumni.js"></script>
 
 <%- include("../includes/end.ejs") %>

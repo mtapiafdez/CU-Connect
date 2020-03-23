@@ -1,6 +1,8 @@
-// Event, User Model Mongoose
+// Event, User, Article, Config Model Mongoose
 const Event = require("../models/event");
 const User = require("../models/user");
+const Article = require("../models/article");
+const Config = require("../models/config");
 
 // Returns Donate Metrics View
 exports.getDonateMetrics = (req, res, next) => {
@@ -22,7 +24,7 @@ exports.getAddEvent = (req, res, next) => {
 exports.postAddEvent = async (req, res, next) => {
 	const eventName = req.body["event-name"];
 	const eventDate = req.body["event-date"];
-	const eventTime = Date(req.body["event-time"]);
+	const eventTime = req.body["event-time"];
 	const eventDesc = req.body["event-description"];
 
 	const event = new Event({
@@ -35,6 +37,7 @@ exports.postAddEvent = async (req, res, next) => {
 	});
 
 	try {
+		console.log(event);
 		await event.save();
 		res.redirect("/events");
 	} catch (err) {
@@ -75,7 +78,7 @@ exports.patchEventApproval = async (req, res, next) => {
 		event.approved = type;
 		await event.save();
 
-		res.status(200).json({ message: "Success!" });
+		res.status(200).json({ message: "SUCCESS" });
 	} catch (err) {
 		const error = new Error(err);
 		error.httpStatusCode = 500;
@@ -93,21 +96,13 @@ exports.getMasterSearch = (req, res, next) => {
 
 // Gets Alumni By Filter
 exports.getAlumni = async (req, res, next) => {
-	const firstName = req.query.firstName;
-	const lastName = req.query.lastName;
-	const email = req.query.email;
-	const classOf = req.query.classOf;
-	const major = req.query.major;
-
 	let query = {};
 
-	if (firstName) {
-		query["firstName"] = firstName;
+	for (var key in req.query) {
+		if (req.query[key]) query[key] = req.query[key];
 	}
 
-	if (major) {
-		query["major"] = major;
-	}
+	console.log(query);
 
 	try {
 		const alumni = await User.find(query).select(
@@ -130,10 +125,61 @@ exports.getAddNews = (req, res, next) => {
 	});
 };
 
+// Post News To Database
+exports.postAddNews = async (req, res, next) => {
+	const { articleName, articleDate, articleTime, articleDesc } = req.body;
+
+	const article = new Article({
+		articleName: articleName,
+		articleDate: articleDate,
+		articleTime: articleTime,
+		articleDesc: articleDesc,
+		userId: req.session.user._id
+	});
+
+	try {
+		await article.save();
+		res.redirect("/me");
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
+};
+
 // Returns Site Config View
-exports.getSiteConfig = (req, res, next) => {
+exports.getSiteConfig = async (req, res, next) => {
+	const siteConfig = await Config.findById("5e79211c227c580a24c1919d");
+
 	res.render("admin/site-config", {
 		path: "/management",
-		pageTitle: "Site Config"
+		pageTitle: "Site Config",
+		siteConfig: siteConfig
 	});
+};
+
+// Update Site Config
+exports.postSiteConfig = (req, res, next) => {
+	const type = req.query.type;
+
+	if (type === "TEXTS") {
+		const { eventsText, infoText, othersText } = req.body;
+		console.log(req.body);
+	} else if (type === "CAROUSEL") {
+		const {
+			carouselId,
+			imgPath,
+			headerText,
+			bodyText,
+			btnClicked
+		} = req.body;
+
+		if (btnClicked === "REMOVE") {
+			// Remove Carousel
+		} else {
+			// Update Carousel
+		}
+	}
+
+	//res.redirect("/");
 };

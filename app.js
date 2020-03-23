@@ -72,6 +72,7 @@ app.use("/images", express.static(path.join(__dirname, "images")));
 
 // Filter Requests Through BodyParser/Multer/Session
 app.use(bodyParser.urlencoded({ extended: true }));
+app.use(bodyParser.json());
 app.use(
 	multer({ storage: fileStorage, fileFilter: fileFilter }).single("image")
 );

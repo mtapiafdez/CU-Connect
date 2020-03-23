@@ -7,6 +7,8 @@
 <body>
    <%- include('../includes/navigation.ejs') %>
 
+   <%- include("../includes/inner-scroll-start.ejs") %>
+
    <main class="main-container">
         <h1 class="main-header">Reset</h1>
         <form class="auth-container mt-3" action="/reset" method="POST">
@@ -15,7 +17,7 @@
                 <input class="form-control" type="email" name="email" id="email">
             </div>
             <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-            <button class="btn btn-outline-secondary mt-2" type="submit">Reset Password</button>
+            <button class="btn btn-core mt-2" type="submit">Reset Password</button>
             <% if (errorMessage) { %>
                 <div class="alert alert-danger mt-3" role="alert">
                     <%= errorMessage %>
@@ -23,5 +25,7 @@
             <% } %>
         </form>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include('../includes/end.ejs') %>

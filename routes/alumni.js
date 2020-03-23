@@ -9,6 +9,11 @@ const router = express.Router();
 //! ME
 // GET => /me
 router.get("/me", isAuth.Alumni, alumniController.getMe);
+router.patch(
+	"/manageConnectionRequest",
+	isAuth.Alumni,
+	alumniController.patchConnectionRequest
+);
 
 // GET => /messages
 router.get("/messages", isAuth.Alumni, alumniController.getMessages);
@@ -42,5 +47,7 @@ router.delete(
 //! CONNECT
 // GET => /connect
 router.get("/connect", isAuth.Alumni, alumniController.getConnect);
+router.get("/getConnections", isAuth.Alumni, alumniController.getConnections);
+router.put("/sendConnection", isAuth.Alumni, alumniController.putConnection);
 
 module.exports = router;

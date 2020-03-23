@@ -1,0 +1,28 @@
+/* ===============================================
+                DONATE METRICS
+===============================================*/
+.card-height-50 {
+	height: 35vh;
+	min-height: 200px;
+}
+
+/* ===============================================
+                Alumni Master Search
+===============================================*/
+#alumni-table-header th {
+	font-weight: 600;
+}
+
+#alumni-payload tr:hover {
+	cursor: pointer;
+	background-color: #f4f4f4;
+}
+
+.search-table-message {
+	flex: 1;
+	text-align: center;
+}
+
+/* ===============================================
+
+===============================================*/

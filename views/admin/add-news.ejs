@@ -5,8 +5,52 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main>
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
+    <main class="main-container">
         <h1 class="main-header">Add News</h1>
+        <form class="auth-container mt-3" action="/admin/alumni/add-news" method="POST">
+            <div class="form-group">
+                <input
+                    class="form-control"
+                    type="text"
+                    name="articleName"
+                    id="articleName"
+                    placeholder="News Name"
+                />
+            </div>
+            <div class="form-group">
+                <input
+                    class="form-control"
+                    type="date"
+                    name="articleDate"
+                    id="articleDate"
+                    placeholder="MM-DD-YY"
+                />
+            </div>
+            <div class="form-group">
+                <input
+                    class="form-control"
+                    type="time"
+                    name="articleTime"
+                    id="articleTime"
+                />
+            </div>
+            <div class="form-group">
+                <textarea
+                    class="form-control"
+                    name="articleDesc"
+                    id="articleDesc"
+                    rows="5"
+                ></textarea>
+            </div>
+            <div class="form-group">
+                <input type="hidden" name="_csrf" value="<%= csrfToken %>"/>
+                <button class="btn btn-block btn-core" type="submit">Add News</button>
+            </div>
+        </form>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include("../includes/end.ejs") %>

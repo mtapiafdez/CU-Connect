@@ -1,13 +1,34 @@
-// User/Event Model Mongoose
+// User/Event/Articles Model Mongoose
 const User = require("../models/user");
 const Event = require("../models/event");
+const Article = require("../models/article");
 
 // Returns Me View
-exports.getMe = (req, res, next) => {
-	res.render("alumni-student/me", {
-		path: "/me",
-		pageTitle: "Me"
-	});
+exports.getMe = async (req, res, next) => {
+	try {
+		const user = await User.findById(req.session.user._id);
+
+		const userPopulated = await user
+			.populate("connections.requests.requestUser")
+			.execPopulate(); // LIMIT RETURNS AND WHAT NOT
+
+		const articles = await Article.find().select("-_id -userId");
+
+		if (!userPopulated) {
+			return res.redirect("/");
+		}
+
+		res.render("alumni-student/me", {
+			path: "/me",
+			pageTitle: "Me",
+			userInfo: userPopulated,
+			articles: articles
+		});
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
 };
 
 // Returns Messages View
@@ -59,11 +80,11 @@ exports.postUpdate = async (req, res, next) => {
 	const instagram = req.body.instagram;
 
 	// Image
-	const image = req.file;
+	let image = req.file;
 
 	// TODO: VALIDATE IMAGE LEGITIMACY & CLEAN UP
 	if (!image) {
-		return console.log("File is not an image");
+		image = "KEEP";
 	}
 
 	const profileUrl = image.path;
@@ -85,7 +106,11 @@ exports.postUpdate = async (req, res, next) => {
 		user.social.twitter = twitter;
 		user.social.linkedIn = linkedIn;
 		user.social.instagram = instagram;
-		user.profileUrl = profileUrl;
+		if (image === "KEEP") {
+			user.profileUrl = user.profileUrl;
+		} else {
+			user.profileUrl = profileUrl;
+		}
 		await user.save();
 		res.redirect("/update-info");
 	} catch (err) {
@@ -162,7 +187,7 @@ exports.deleteRequestedEvent = async (req, res, next) => {
 			userId: req.user._id
 		});
 
-		res.status(200).json({ message: "Success!" });
+		res.status(200).json({ message: "SUCCESS" });
 	} catch (err) {
 		// throw new Error(err);
 		res.status(500).json({ message: "Deleting product failed." });
@@ -173,6 +198,80 @@ exports.deleteRequestedEvent = async (req, res, next) => {
 exports.getConnect = (req, res, next) => {
 	res.render("alumni-student/connect", {
 		path: "/connect",
-		pageTitle: "Connect"
+		pageTitle: "Connect",
+		userId: req.session.user._id
 	});
+};
+
+// Returns Possible Connections
+exports.getConnections = async (req, res, next) => {
+	let { name, classYear, major } = req.query;
+
+	let query = {
+		$and: []
+	};
+
+	if (!name && !classYear && !major) {
+		query.$and.push({ $or: [{ firstName: "" }, { lastName: "" }] });
+	}
+
+	if (name) {
+		query.$and.push({ $or: [{ firstName: name }, { lastName: name }] });
+	}
+
+	if (classYear) {
+		query.$and.push({ classYear: classYear });
+	}
+
+	if (major) {
+		query.$and.push({ major: major });
+	}
+
+	try {
+		const alumnis = await User.find(query).select(
+			"firstName lastName classYear major"
+		);
+
+		res.status(200).json(alumnis);
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
+};
+
+// Make A Connection
+exports.putConnection = async (req, res, next) => {
+	const { requestMessage, requestId, userToConnect } = req.body;
+
+	// Use In Request
+	const connectionRequest = { id: requestId, message: requestMessage };
+
+	try {
+		// Add Connection
+		const user = await User.findById(userToConnect);
+
+		await user.addConnectionRequest(connectionRequest);
+
+		res.status(200).send("SUCCESS");
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		throw error;
+	}
+};
+
+// Patch The Connection To Accept Or Reject Connection
+exports.patchConnectionRequest = async (req, res, next) => {
+	const { type, connectionToParse } = req.query;
+
+	//TODO: ATT TRY CATCH
+	switch (type) {
+		case "ACCEPT":
+			await req.user.addConnection(connectionToParse);
+			return res.status(200).send("SUCCESS");
+		case "REJECT":
+			await req.user.removeConnectionRequest(connectionToParse);
+			return res.status(200).send("SUCCESS");
+	}
 };

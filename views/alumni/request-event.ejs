@@ -7,6 +7,8 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
     
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
     <main class="main-container"> 
         <h1 class="main-header">Request Event</h1>
         <form class="auth-container mt-3" action="/request-event" method="POST">
@@ -46,9 +48,11 @@
             </div>
             <div class="form-group">
                 <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
-                <button class="btn btn-block btn-outline-secondary" type="submit">Submit Request</button>
+                <button class="btn btn-block btn-core" type="submit">Submit Request</button>
             </div>
         </form>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include("../includes/end.ejs") %>

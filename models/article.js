@@ -9,11 +9,11 @@ const articleSchema = new Schema({
 		required: true
 	},
 	articleDate: {
-		type: Date,
+		type: String,
 		required: true
 	},
 	articleTime: {
-		type: Date,
+		type: String,
 		required: true
 	},
 	articleDesc: {

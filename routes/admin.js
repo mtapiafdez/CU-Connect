@@ -36,8 +36,9 @@ router.get(
 );
 router.get("/alumni/getAlumni", isAuth.Admin, adminController.getAlumni);
 
-// GET => /admin/alumni/add-news
+// GET-POST => /admin/alumni/add-news
 router.get("/alumni/add-news", isAuth.Admin, adminController.getAddNews);
+router.post("/alumni/add-news", isAuth.Admin, adminController.postAddNews);
 
 //! MGMT
 // GET => /admin/management/site-config
@@ -46,5 +47,6 @@ router.get(
 	isAuth.Admin,
 	adminController.getSiteConfig
 );
+router.post("/updateSite", isAuth.Alumni, adminController.postSiteConfig);
 
 module.exports = router;

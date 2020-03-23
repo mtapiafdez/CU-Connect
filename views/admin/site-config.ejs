@@ -5,8 +5,64 @@
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main>
-        <h1 class="main-header">Site Config</h1>
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
+    <main class="main-container">
+        <h1 class="main-header mb-4">Site Config</h1>
+        <div class="d-flex justify-content-between w-50 mx-auto">
+            <button class="btn btn-lg btn-core" type="button" data-toggle="collapse" data-target="#homeCollapse" aria-expanded="false" aria-controls="homeCollapse">Home Texts</button>
+            <button class="btn btn-lg btn-core" type="button" data-toggle="collapse" data-target="#carouselCollapse" aria-expanded="false" aria-controls="carouselCollapse">Carousel</button>
+        </div>
+        
+        <div class="d-flex justify-content-between">
+            <div class="collapse mt-3 mx-auto" id="homeCollapse" style="flex-basis: 45%;">
+                <form action="/admin/updateSite?type=TEXTS" method="POST">
+                    <div class="form-group">
+                        <label for="eventsText">Events Text</label>
+                        <textarea style="resize:none;" rows="5" name="eventsText" id="eventsText" class="form-control" required><%= siteConfig.homeConfig.eventsText %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="infoText">Info Text</label>
+                        <textarea style="resize:none;" rows="5" name="infoText" id="infoText" class="form-control" required><%= siteConfig.homeConfig.infoText %></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="eventsText">Others Text</label>
+                        <textarea style="resize:none;" rows="5" name="othersText" id="othersText" class="form-control" required><%= siteConfig.homeConfig.othersText %></textarea>
+                    </div>
+                    <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                    <button type="submit" class="btn btn-core btn-block">Update</button>
+                </form>
+            </div>
+
+            <div class="collapse mt-3 mx-auto" id="carouselCollapse" style="flex-basis: 45%;">
+                <% for (let cItem of siteConfig.homeConfig.carouselItems) { %>
+                    <form class="mb-5" action="/admin/updateSite?type=CAROUSEL" method="POST">
+                        <h4>Carousel: <%= cItem._id %></h4>
+                        <div class="form-group">
+                            <label for="imgPath">Img Path</label>
+                            <input name="imgPath" class="form-control" value="<%= cItem.imgPath %>">
+                        </div>
+                        <div class="form-group">
+                            <label for="headerText">Header Text</label>
+                            <textarea style="resize:none;" rows="5" name="headerText" class="form-control" ><%= cItem.headerText %></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bodyText">Body Text</label>
+                            <textarea style="resize:none;" rows="5" name="bodyText" class="form-control"><%= cItem.bodyText %></textarea>
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                        <input type="hidden" name="carouselId" value="<%= cItem._id %>" />
+                        <input id="btnClicked" type="hidden" name="btnClicked" />
+                        <button onclick="setButtonClicked();" value="REMOVE" type="submit" class="btn btn-outline-danger btn-block">Remove Carousel</button>
+                        <button onclick="setButtonClicked();" value="UPDATE" type="submit" class="btn btn-core btn-block">Update Carousel</button>
+                    </form>
+                <% } %>
+            </div>
+        </div>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
+
+    <script src="/js/admin.js"></script>
 
 <%- include("../includes/end.ejs") %>

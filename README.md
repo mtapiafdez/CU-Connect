@@ -5,7 +5,14 @@
 ## TODO:
 
 -   (X) Add File With Config, Keys, Etc
--   () HTML / CSS / JS Party (PUBLIC FOLDER / VIEWS IN DETAIL)!!!
+-   (X) HTML / CSS / JS Party (PUBLIC FOLDER / VIEWS IN DETAIL)!!!
+-   (X) Me Page (Student & Alumni)
+-   (X) Finish Client Side Workings
+-   (X) Finish Add News
+-   () Finish HOME
+-   () Finish Site Config (Home Images / News (3 sections))
+-   (X) Check JS Sheets
+-   () Click alumni on management, what to do with them
 -   () Fix File Upload Issue (First Upload On Signup, Clear Old On New)
 -   () Fix ClassYear In Signup To Work
 -   () Make Dates Dates Not String!
@@ -17,7 +24,7 @@
 -   () Make Sure Validation Includes Highlighting Aspect!
     -   Embedded Message Like In Auth.js Example
 -   () Return No Pending Events / No Event Requested For Empty Response
--   () Progressively Disclosure Forms Etc.
+-   (X) Progressively Disclosure Forms Etc.
 -   () Protect REST Endpoints With Session - Validate By User Created Request (DELETE) & Admin User (PATCH)
 -   () Send JSON Responses On Errors Rest APIS - Add Something To Req So App Error Handler Determines Type
     -   Check REST Example To Next(ERR) On Rest API Catch! MAYBE (TEST WITH CONSOLE.LOG(ERROR)) Switch To Next!
@@ -33,9 +40,15 @@
 -   () On Event Approval / Rejection - Send Email!
 -   () Responsiveness And Submenu On Mobile
 -   () Boostrap Menu
--   () Have Forward And Backwards On Signup
+-   () Remove Unnecessary console.logs
+-   () When I Remove Nodes After Ajax, See If Lists Are Empty
+-   () Add Actions To Modal
+-   (X) Have Forward And Backwards On Signup
 -   () Check all wireframes
 -   () Favicon / SEO, etc
+-   () Reset and login differences in heights
+-   () ADDRESS DATE ISSUE
+-   () Connect & messages
 
 ## FINAL CHECK:
 

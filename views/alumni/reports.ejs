@@ -1,12 +1,31 @@
 <%- include("../includes/head.ejs") %>
 
+    <link rel="stylesheet" type="text/css" href="/css/alumni.css">
 </head>
 
 <body>
     <%- include("../includes/navigation.ejs") %>
 
-    <main>
+    <%- include("../includes/inner-scroll-start.ejs") %>
+
+    <main class="main-container">
         <h1 class="main-header">Reports</h1>
+        <div class="reports-container">
+            <div class="text-center">
+                <button type="button" class="btn btn-core btn-lg">Get Transcript</button>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-core btn-lg">Donation Report</button>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-core btn-lg">Financial Statements</button>
+            </div>
+            <div class="text-center">
+                <button type="button" class="btn btn-core btn-lg">See Individual</button>
+            </div>
+        </div>
     </main>
+
+    <%- include("../includes/inner-scroll-end.ejs") %>
 
 <%- include("../includes/end.ejs") %>
