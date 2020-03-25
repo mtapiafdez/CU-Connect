@@ -35,6 +35,11 @@
             </div>
 
             <div class="collapse mt-3 mx-auto" id="carouselCollapse" style="flex-basis: 45%;">
+                
+                <!-- TODO: TOGGLE BETWEEN ADD NEW ITEM & MANAGE EXISTING ITEMS -->
+                <button id="collapseControlButton" class="btn btn-core btn-block my-3" controlling="MANAGING">Add New Item</button>
+           
+                <div id="carouselManageBox">
                 <% for (let cItem of siteConfig.homeConfig.carouselItems) { %>
                     <form class="mb-5" action="/admin/updateSite?type=CAROUSEL" method="POST">
                         <h4>Carousel: <%= cItem._id %></h4>
@@ -52,11 +57,32 @@
                         </div>
                         <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
                         <input type="hidden" name="carouselId" value="<%= cItem._id %>" />
-                        <input id="btnClicked" type="hidden" name="btnClicked" />
-                        <button onclick="setButtonClicked();" value="REMOVE" type="submit" class="btn btn-outline-danger btn-block">Remove Carousel</button>
-                        <button onclick="setButtonClicked();" value="UPDATE" type="submit" class="btn btn-core btn-block">Update Carousel</button>
+                        <input type="hidden" name="btnClicked" />
+                        <button onclick="setButtonClicked(this);" value="REMOVE" type="submit" class="btn btn-outline-danger btn-block">Remove Carousel</button>
+                        <button onclick="setButtonClicked(this);" value="UPDATE" type="submit" class="btn btn-core btn-block">Update Carousel</button>
                     </form>
                 <% } %>
+                </div>
+                <div id="carouselAddBox" style="display: none;">
+                    <form class="mb-5" action="/admin/updateSite?type=CAROUSEL-ADD" method="POST">
+                        <div class="form-group">
+                            <label for="imgPath">Img Path</label>
+                            <input name="imgPath" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="headerText">Header Text</label>
+                            <textarea style="resize:none;" rows="5" name="headerText" class="form-control" ></textarea>
+                        </div>
+                        <div class="form-group">
+                            <label for="bodyText">Body Text</label>
+                            <textarea style="resize:none;" rows="5" name="bodyText" class="form-control"></textarea>
+                        </div>
+                        <input type="hidden" name="_csrf" value="<%= csrfToken %>" />
+                        <div class="text-center">
+                            <button class="btn btn-core" type="submit">Add Carousel</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </main>

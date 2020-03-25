@@ -149,7 +149,9 @@ exports.postAddNews = async (req, res, next) => {
 
 // Returns Site Config View
 exports.getSiteConfig = async (req, res, next) => {
-	const siteConfig = await Config.findById("5e79211c227c580a24c1919d");
+	const siteConfig = await Config.findById("5e79211c227c580a24c1919d").select(
+		"-__v"
+	);
 
 	res.render("admin/site-config", {
 		path: "/management",
@@ -159,12 +161,18 @@ exports.getSiteConfig = async (req, res, next) => {
 };
 
 // Update Site Config
-exports.postSiteConfig = (req, res, next) => {
+exports.postSiteConfig = async (req, res, next) => {
 	const type = req.query.type;
 
 	if (type === "TEXTS") {
 		const { eventsText, infoText, othersText } = req.body;
-		console.log(req.body);
+		const changeObj = {
+			eventsText: eventsText,
+			infoText: infoText,
+			othersText: othersText
+		};
+		await Config.modifyConfig(type, changeObj);
+		return res.redirect("/");
 	} else if (type === "CAROUSEL") {
 		const {
 			carouselId,
@@ -174,12 +182,26 @@ exports.postSiteConfig = (req, res, next) => {
 			btnClicked
 		} = req.body;
 
-		if (btnClicked === "REMOVE") {
-			// Remove Carousel
-		} else {
-			// Update Carousel
-		}
-	}
+		const changeObj = {
+			_id: carouselId,
+			imgPath: imgPath,
+			headerText: headerText,
+			bodyText: bodyText,
+			btnClicked: btnClicked
+		};
 
-	//res.redirect("/");
+		await Config.modifyConfig(type, changeObj);
+		return res.redirect("/");
+	} else if (type === "CAROUSEL-ADD") {
+		const { imgPath, headerText, bodyText } = req.body;
+
+		const changeObj = {
+			imgPath: imgPath,
+			headerText: headerText,
+			bodyText: bodyText
+		};
+
+		await Config.modifyConfig(type, changeObj);
+		return res.redirect("/");
+	}
 };

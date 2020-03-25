@@ -26,6 +26,26 @@ exports.Student = (req, res, next) => {
 	next();
 };
 
+// Student / Alumnni - Connect, Messages, Me
+exports.AlumniStudent = (req, res, next) => {
+	if (!req.session.isLoggedIn) {
+		return res.redirect("/login");
+	}
+
+	if (req.session.userType === "admin") {
+		return next();
+	}
+
+	if (
+		req.session.userType === "alumni" ||
+		req.session.userType === "student"
+	) {
+		return next();
+	}
+
+	return res.redirect("/");
+};
+
 // Admin Auth Middleware
 exports.Admin = (req, res, next) => {
 	if (!req.session.isLoggedIn) {

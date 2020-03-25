@@ -102,8 +102,21 @@ $("#searchButton").click(evt => {
 /* ==================================================
                 SITE CONFIG
 ================================================== */
-const setButtonClicked = () => {
-	const clickedButton = $(document.activeElement).val();
-
-	$("#btnClicked").val(clickedButton);
+const setButtonClicked = btn => {
+	btn.parentNode.querySelector("[name=btnClicked]").value = btn.value;
 };
+
+$("#collapseControlButton").click(btn => {
+	const type = $("#collapseControlButton").attr("controlling");
+	if (type === "MANAGING") {
+		$("#collapseControlButton").attr("controlling", "ADDING");
+		$("#collapseControlButton").text("Manage Existing Items");
+		$("#carouselManageBox").hide();
+		$("#carouselAddBox").show();
+	} else if (type === "ADDING") {
+		$("#collapseControlButton").attr("controlling", "MANAGING");
+		$("#collapseControlButton").text("Add New Item");
+		$("#carouselAddBox").hide();
+		$("#carouselManageBox").show();
+	}
+});

@@ -9,10 +9,14 @@
 -   (X) Me Page (Student & Alumni)
 -   (X) Finish Client Side Workings
 -   (X) Finish Add News
--   () Finish HOME
--   () Finish Site Config (Home Images / News (3 sections))
+-   (X) Finish HOME
+-   (X) Finish Site Config (Home Images / News (3 sections))
+-   (X) Fix Remove Event from Carousel. Add Image Carousel. & Update Data
+-   () Complete Messages
 -   (X) Check JS Sheets
+-   () Create new user and test all
 -   () Click alumni on management, what to do with them
+-   () Make Sure Shared Things Work On Student
 -   () Fix File Upload Issue (First Upload On Signup, Clear Old On New)
 -   () Fix ClassYear In Signup To Work
 -   () Make Dates Dates Not String!
@@ -48,22 +52,20 @@
 -   () Favicon / SEO, etc
 -   () Reset and login differences in heights
 -   () ADDRESS DATE ISSUE
--   () Connect & messages
+-   () Ensure everything is responsive
+-   () Ensure every single route is proteced
+-   () Fix sendgrid thing
+-   () Use req user model instead of getting user.
 
 ## FINAL CHECK:
 
--   () Test & Walk Through All Controllers
+-   () Test, Add Comments, Walk Through All Controllers & Overall Clean Up
 
 ## TO INC (FUTURE):
 
--   () pdfkit (_Document Generation_)
--   () stripe (_Donation Page_)
--   () sockets (_Messaging Page_)
--   () REST API
-    -   () Chat
-    -   () Alumni Search? / Connect?
-    -   () Generate Reports
-    -   () Requested Events / Approve Events
+-   () Pdfkit (_Document Generation - Reports_)
+-   () Stripe (_Donation Page_)
+-   () Events Calendar
 
 ### NOTES:
 
