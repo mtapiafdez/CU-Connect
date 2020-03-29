@@ -109,7 +109,14 @@ const userSchema = new Schema({
 				}
 			}
 		]
-	}
+	},
+	chatRooms: [
+		{
+			type: Schema.Types.ObjectId,
+			ref: "Chatroom",
+			required: true
+		}
+	]
 });
 
 userSchema.methods.addConnectionRequest = function(connectionRequest) {

@@ -144,8 +144,22 @@ app.use((error, req, res, next) => {
 mongoose
 	.connect(MONGODB_URI, { useNewUrlParser: true, useUnifiedTopology: true })
 	.then(result => {
-		app.listen(port, () => {
+		const server = app.listen(port, () => {
 			console.log(`App listening on port ${port}!`);
+		});
+
+		const io = require("./socket").init(server);
+
+		io.on("connection", socket => {
+			socket.on("join-room", room => {
+				console.log(`Client Room: ${room}`);
+				socket.join(room);
+			});
+
+			// New Message To Server
+			socket.on("NMTS", clientData => {
+				socket.to(clientData.room).emit("NMTC", clientData.message);
+			});
 		});
 	})
 	.catch(err => {

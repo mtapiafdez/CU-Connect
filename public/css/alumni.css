@@ -149,3 +149,124 @@
 	flex-basis: 50%;
 	padding: 2em;
 }
+
+/* ===============================================
+                MESSAGES
+===============================================*/
+.contacts-box {
+	border: 1px solid #adadad;
+	border-radius: 20px;
+}
+
+.contacts-box {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	height: 80vh;
+}
+
+.contacts-box__contacts {
+	display: flex;
+	flex-direction: column;
+	border-top: 1px solid #adadad;
+	align-self: stretch;
+	height: 100%;
+}
+
+.contacts-box__contact {
+	display: flex;
+	border-bottom: 1px solid #adadad;
+}
+
+.contacts-box__contact:hover {
+	cursor: pointer;
+	background-color: #f4f4f4;
+}
+
+.contacts-box__contact img {
+	width: 50px;
+	height: 50px;
+	object-fit: cover;
+	object-position: 50% 50%;
+	border: 1px solid rgb(131, 131, 131);
+	border-radius: 50%;
+}
+
+.contacts-box__contact div {
+	flex-grow: 1;
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+}
+
+.contacts-box__contact h6 {
+	text-transform: uppercase;
+	font-weight: 600;
+	margin-bottom: 0;
+}
+
+.contacts-box__contact p {
+	color: #9c9c9c;
+	margin-bottom: 0;
+}
+
+/* MESSAGES */
+.messages-box {
+	border: 1px solid #adadad;
+	display: flex;
+	flex-direction: column;
+	/* flex-wrap: wrap; */
+	/* justify-content: flex-start; */
+	align-items: stretch;
+	height: 80vh;
+}
+
+.message-interaction {
+	overflow-y: scroll;
+	height: calc(100% - 20px);
+}
+
+.message-interaction span {
+	text-transform: uppercase;
+	font-weight: 600;
+}
+
+.message-interaction p {
+	text-align: justify;
+}
+
+.messages-box textarea {
+	resize: none;
+}
+
+/* .messages-box h5 {
+	align-self: flex-start;
+} */
+
+/* .messages-box * {
+	flex-basis: 100%;
+}
+
+
+
+.messages-box textarea {
+	align-self: flex-end;
+	resize: none;
+} */
+/* .messages-box h6 {
+	flex-basis: 100%;
+	text-transform: capitalize;
+	font-weight: 400;
+	align-self: flex-start;
+}
+
+.messages-box__messages {
+	flex-basis: 100%;
+	overflow-y: scroll;
+}
+
+.messages-box textarea {
+	flex-basis: 100%;
+	resize: none;
+	align-self: flex-end;
+} */

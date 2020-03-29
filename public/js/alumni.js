@@ -142,3 +142,81 @@ const manageConnectionRequest = async (btn, connectionToParse, type) => {
 		console.log(err);
 	}
 };
+
+/* ==================================================
+                MESSAGES
+================================================== */
+//! SOCKETS
+const socket = io.connect();
+
+// NMTC = New Message To Client
+socket.on("NMTC", message => {
+	if ($("#chatRoomId").val() === message.chatRoomId) {
+		$("#chat-messages").append(
+			`<p><span>${message.user}:&nbsp;</span>${message.message}</p>`
+		);
+	}
+});
+
+const sendMessageToSocket = message => {
+	const chatRoomId = $("#chatRoomid").val();
+	socket.emit("NMTS", { room: chatRoomId, message: message });
+};
+
+const getChatRoom = async (chatWithId, chatWithName) => {
+	$("#chat-header").text(chatWithName);
+
+	try {
+		const result = await fetch(`/getChatRoom?chatWith=${chatWithId}`);
+
+		const data = await result.json();
+
+		$("#chatRoomId").val(data.chatId);
+
+		let htmlBulk = "";
+		data.messages.forEach(message => {
+			htmlBulk += `
+            <p><span>${message.meta.user.firstName}:&nbsp;</span>${message.message}</p>
+                `;
+		});
+
+		socket.emit("join-room", data.chatId);
+
+		$("#chat-messages").html(htmlBulk);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+const sendMessage = async () => {
+	const chatRoomId = $("#chatRoomId").val();
+	const message = $("#chatBox").val();
+	const csrf = $("#messagesCsrf").val();
+
+	try {
+		const result = await fetch("/sendMessage", {
+			method: "POST",
+			headers: {
+				"Content-Type": "application/json",
+				"csrf-token": csrf
+			},
+			body: JSON.stringify({
+				chatRoomId: chatRoomId,
+				message: message
+			})
+		});
+		const data = await result.json();
+		sendMessageToSocket(message);
+
+		$("#chatBox").val("");
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+$("#chatBox").keypress(evt => {
+	const key = evt.which;
+	if (key === 13) {
+		sendMessage();
+	}
+});

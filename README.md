@@ -4,9 +4,11 @@
 
 ## TODO:
 
--   ( ) Complete Messages
+-   ( ) Ensure All New Created Users Have All Fields
+-   ( ) Find One and Update Deprecatited
 -   ( ) Create New User And Test All
 -   ( ) Delete Image On Change
+-   ( ) Check filtering or searching works by anythinn
 -   ( ) Click Alumni On Management, What To Do With Them (Detailed Info & Edit On Modal?)
 -   ( ) Make Sure Shared Routes Work On Student
 -   ( ) Fix File Upload Issue (First Upload On Signup, Clear Old On New)
@@ -41,8 +43,11 @@
 -   ( ) Reset and login differences in heights
 -   ( ) Ensure everything is responsive
 -   ( ) Ensure every single route is proteced
+-   ( ) Connect fix (can't connect to self or find user's you're connected to)
 -   ( ) Fix sendgrid thing
 -   ( ) Use req user model instead of getting user.
+-   ( ) Walk Through Main App To Know Complete Working
+-   ( ) Remove inner container
 
 ## FINAL CHECK:
 

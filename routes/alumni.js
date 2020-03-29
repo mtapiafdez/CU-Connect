@@ -58,4 +58,9 @@ router.put(
 	alumniController.putConnection
 );
 
+// REST
+router.get("/getChatRoom", isAuth.Alumni, alumniController.getChatRoom);
+
+router.post("/sendMessage", isAuth.Alumni, alumniController.postSendMessage);
+
 module.exports = router;
