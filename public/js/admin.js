@@ -14,8 +14,8 @@ const processRequest = async (btn, type) => {
 			{
 				method: "PATCH",
 				headers: {
-					"csrf-token": csrf
-				}
+					"csrf-token": csrf,
+				},
 			}
 		);
 
@@ -23,6 +23,13 @@ const processRequest = async (btn, type) => {
 
 		if (data.message === "SUCCESS") {
 			requestedEventElement.parentNode.removeChild(requestedEventElement);
+			const containerEmpty =
+				$("#event-approval-container").html().trim() === "";
+			if (containerEmpty) {
+				$("#event-approval-container").html(
+					`<h4 class="text-center mt-5">No pending event approvals</h4>`
+				);
+			}
 		} else {
 			alert("Event Flag Changed Failed");
 		}
@@ -35,7 +42,7 @@ const processRequest = async (btn, type) => {
                 SEARCH ALUMNI PAGE
 ================================================== */
 // SearchAlumni() => Gets Alumni By Filter
-const searchAlumni = async btn => {
+const searchAlumni = async (btn) => {
 	const firstName = $("#firstName").val();
 	const lastName = $("#lastName").val();
 	const email = $("#email").val();
@@ -58,6 +65,8 @@ const searchAlumni = async btn => {
 		);
 		const data = await result.json();
 
+		console.log(data);
+
 		if (data.length > 0) {
 			let searchMessage = $(".search-table-message");
 			if (searchMessage) {
@@ -65,7 +74,7 @@ const searchAlumni = async btn => {
 			}
 
 			let htmlBulk = "";
-			data.forEach(alumnus => {
+			data.forEach((alumnus) => {
 				htmlBulk += `
                 <tr data-toggle="modal" data-target="#searchModal">
                     <td>${alumnus.firstName}</td>
@@ -73,22 +82,26 @@ const searchAlumni = async btn => {
                     <td>${alumnus.major}</td>
                     <td>${alumnus.occupation}</td>
                     <td>${alumnus.company}</td>
+                    <td style="display:none;">${alumnus._id}</td>
                 </tr>
                 `;
 			});
 			$("#alumni-payload").html(htmlBulk);
 		} else {
 			$("#alumni-payload").html("");
-			$("#search-table-area").append(`
+
+			if ($(".search-table-message").length === 0) {
+				$("#search-table-area").append(`
                 <p class="search-table-message">No results</p>
             `);
+			}
 		}
 	} catch (err) {
 		console.log(err);
 	}
 };
 
-$("#searchButton").click(evt => {
+$("#searchButton").click((evt) => {
 	const additionalExpanded =
 		evt.target.attributes["aria-expanded"].value == "false";
 
@@ -99,14 +112,54 @@ $("#searchButton").click(evt => {
 	}
 });
 
+$("#searchModal").on("show.bs.modal", async (evt) => {
+	const lastItemIndex = evt.relatedTarget.children.length - 1;
+	const searchId = evt.relatedTarget.children[lastItemIndex].textContent;
+
+	const result = await fetch(
+		`/admin/alumni/getAlumni?id=${searchId}&type=individual`
+	);
+	const data = await result.json();
+
+	const {
+		firstName,
+		lastName,
+		email,
+		phone,
+		addressLineMain,
+		addressLineSecondary,
+		city,
+		state,
+		zip,
+		classYear,
+		major,
+		occupation,
+		company,
+	} = data;
+
+	$("#firstNameModal").html(firstName);
+	$("#lastNameModal").html(lastName);
+	$("#emailModal").html(email);
+	$("#phoneModal").html(phone);
+	$("#addressMainModal").html(addressLineMain);
+	$("#addressSecondaryModal").html(addressLineSecondary);
+	$("#cityModal").html(city);
+	$("#stateModal").html(state);
+	$("#zipModal").html(zip);
+	$("#classYearModal").html(classYear);
+	$("#majorModal").html(major);
+	$("#occupationModal").html(occupation);
+	$("#companyModal").html(company);
+});
+
 /* ==================================================
                 SITE CONFIG
 ================================================== */
-const setButtonClicked = btn => {
+const setButtonClicked = (btn) => {
 	btn.parentNode.querySelector("[name=btnClicked]").value = btn.value;
 };
 
-$("#collapseControlButton").click(btn => {
+$("#collapseControlButton").click((btn) => {
 	const type = $("#collapseControlButton").attr("controlling");
 	if (type === "MANAGING") {
 		$("#collapseControlButton").attr("controlling", "ADDING");

@@ -8,7 +8,7 @@ const Config = require("../models/config");
 exports.getDonateMetrics = (req, res, next) => {
 	res.render("admin/donate-metrics", {
 		path: "/donate",
-		pageTitle: "Donation Metrics"
+		pageTitle: "Donation Metrics",
 	});
 };
 
@@ -16,7 +16,7 @@ exports.getDonateMetrics = (req, res, next) => {
 exports.getAddEvent = (req, res, next) => {
 	res.render("admin/add-event", {
 		path: "/events",
-		pageTitle: "Add Event"
+		pageTitle: "Add Event",
 	});
 };
 
@@ -33,11 +33,10 @@ exports.postAddEvent = async (req, res, next) => {
 		eventTime: eventTime,
 		eventDesc: eventDesc,
 		userId: req.session.user._id,
-		approved: "APPROVED"
+		approved: "APPROVED",
 	});
 
 	try {
-		console.log(event);
 		await event.save();
 		res.redirect("/events");
 	} catch (err) {
@@ -54,7 +53,7 @@ exports.getEventApproval = async (req, res, next) => {
 		res.render("admin/event-approval", {
 			path: "/events",
 			pageTitle: "Event Approval",
-			events: events
+			events: events,
 		});
 	} catch (err) {
 		const error = new Error(err);
@@ -63,7 +62,7 @@ exports.getEventApproval = async (req, res, next) => {
 	}
 };
 
-// Patch Event Approval Flag
+// Patch Event Approval Flag - Rest
 exports.patchEventApproval = async (req, res, next) => {
 	const eventId = req.params.eventId;
 	const type = req.params.type;
@@ -80,9 +79,11 @@ exports.patchEventApproval = async (req, res, next) => {
 
 		res.status(200).json({ message: "SUCCESS" });
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 500;
-		throw error;
+		err.type = "REST";
+		if (!err.statusCode) {
+			err.statusCode = 500;
+		}
+		next(err);
 	}
 };
 
@@ -90,30 +91,41 @@ exports.patchEventApproval = async (req, res, next) => {
 exports.getMasterSearch = (req, res, next) => {
 	res.render("admin/master-search", {
 		path: "/alumni",
-		pageTitle: "Master Search"
+		pageTitle: "Master Search",
 	});
 };
 
 // Gets Alumni By Filter
 exports.getAlumni = async (req, res, next) => {
-	let query = {};
+	const { type } = req.query;
 
-	for (var key in req.query) {
-		if (req.query[key]) query[key] = req.query[key];
-	}
-
-	console.log(query);
-
-	try {
-		const alumni = await User.find(query).select(
-			"-_id -password -resetToken -resetTokenExpiration"
+	if (type === "individual") {
+		const { id } = req.query;
+		const alumni = await User.findById(id).select(
+			`-password -resetToken -resetTokenExpiration -profileUrl -type -_id -__v -connections -chatRooms`
 		);
 
 		res.status(200).json(alumni);
-	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 500;
-		throw error;
+	} else {
+		let query = {};
+
+		for (var key in req.query) {
+			if (req.query[key]) query[key] = req.query[key];
+		}
+
+		try {
+			const alumni = await User.find(query).select(
+				"-password -resetToken -resetTokenExpiration"
+			);
+
+			res.status(200).json(alumni);
+		} catch (err) {
+			err.type = "REST";
+			if (!err.statusCode) {
+				err.statusCode = 500;
+			}
+			next(err);
+		}
 	}
 };
 
@@ -121,7 +133,7 @@ exports.getAlumni = async (req, res, next) => {
 exports.getAddNews = (req, res, next) => {
 	res.render("admin/add-news", {
 		path: "/alumni",
-		pageTitle: "Add News"
+		pageTitle: "Add News",
 	});
 };
 
@@ -134,7 +146,7 @@ exports.postAddNews = async (req, res, next) => {
 		articleDate: articleDate,
 		articleTime: articleTime,
 		articleDesc: articleDesc,
-		userId: req.session.user._id
+		userId: req.session.user._id,
 	});
 
 	try {
@@ -156,7 +168,7 @@ exports.getSiteConfig = async (req, res, next) => {
 	res.render("admin/site-config", {
 		path: "/management",
 		pageTitle: "Site Config",
-		siteConfig: siteConfig
+		siteConfig: siteConfig,
 	});
 };
 
@@ -169,7 +181,7 @@ exports.postSiteConfig = async (req, res, next) => {
 		const changeObj = {
 			eventsText: eventsText,
 			infoText: infoText,
-			othersText: othersText
+			othersText: othersText,
 		};
 		await Config.modifyConfig(type, changeObj);
 		return res.redirect("/");
@@ -179,7 +191,7 @@ exports.postSiteConfig = async (req, res, next) => {
 			imgPath,
 			headerText,
 			bodyText,
-			btnClicked
+			btnClicked,
 		} = req.body;
 
 		const changeObj = {
@@ -187,7 +199,7 @@ exports.postSiteConfig = async (req, res, next) => {
 			imgPath: imgPath,
 			headerText: headerText,
 			bodyText: bodyText,
-			btnClicked: btnClicked
+			btnClicked: btnClicked,
 		};
 
 		await Config.modifyConfig(type, changeObj);
@@ -198,7 +210,7 @@ exports.postSiteConfig = async (req, res, next) => {
 		const changeObj = {
 			imgPath: imgPath,
 			headerText: headerText,
-			bodyText: bodyText
+			bodyText: bodyText,
 		};
 
 		await Config.modifyConfig(type, changeObj);

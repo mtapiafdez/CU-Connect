@@ -19,6 +19,9 @@ const cancelRequest = async btn => {
 
 		if (data.message === "SUCCESS") {
 			requestedEventElement.parentNode.removeChild(requestedEventElement);
+			$("#requested-event-container").html(
+				`<h4 class="text-center mt-5">No requested events</h4>`
+			);
 		} else {
 			alert("Issue Canceling Event Request");
 		}
@@ -62,10 +65,12 @@ const searchConnection = async () => {
 			});
 			$("#connect-payload").html(htmlBulk);
 		} else {
-			$("#connect-payload").html("");
-			$("#connect-table-area").append(`
-                <p class="connect-table-message">No results</p>
-            `);
+			if ($(".connect-table-message").length === 0) {
+				$("#connect-payload").html("");
+				$("#connect-table-area").append(`
+                    <p class="connect-table-message">No results</p>
+                `);
+			}
 		}
 	} catch (err) {
 		console.log(err);
@@ -132,6 +137,11 @@ const manageConnectionRequest = async (btn, connectionToParse, type) => {
 				.parent()
 				.remove();
 			$("#connectModal").modal("toggle");
+			if ($(".me-connection").length === 0) {
+				$("#me-connections").html(
+					`<h4 class="text-center mt-5">No Pending</h4>`
+				);
+			}
 
 			alert(`SUCCESSFULLY ${type}`);
 		} else {
@@ -146,18 +156,6 @@ const manageConnectionRequest = async (btn, connectionToParse, type) => {
 /* ==================================================
                 MESSAGES
 ================================================== */
-//! SOCKETS
-const socket = io.connect();
-
-// NMTC = New Message To Client
-socket.on("NMTC", message => {
-	if ($("#chatRoomId").val() === message.chatRoomId) {
-		$("#chat-messages").append(
-			`<p><span>${message.user}:&nbsp;</span>${message.message}</p>`
-		);
-	}
-});
-
 const sendMessageToSocket = message => {
 	const chatRoomId = $("#chatRoomid").val();
 	socket.emit("NMTS", { room: chatRoomId, message: message });

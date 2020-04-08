@@ -1,4 +1,5 @@
 const io = require("../socket");
+const fileHelper = require("../util/file");
 
 // User/Event/Articles Model Mongoose
 const User = require("../models/user");
@@ -50,60 +51,67 @@ exports.getMessages = async (req, res, next) => {
 //! Gets Chat Room Async
 exports.getChatRoom = async (req, res, next) => {
 	const chatWith = req.query.chatWith;
-
 	const chatsCurrentUser = req.user.chatRooms;
-	const chatsOtherUser = await User.findById(chatWith).select(
-		"chatRooms -_id"
-	);
 
-	const chatsOtherUserList = chatsOtherUser.chatRooms;
-
-	const haveChat = chatsCurrentUser.filter(chat =>
-		chatsOtherUserList.includes(chat)
-	);
-
-	if (haveChat.length > 0) {
-		const chatRoomMessages = await Chat.findById(haveChat).populate(
-			"messages.meta.user",
-			"firstName -_id"
+	try {
+		const chatsOtherUser = await User.findById(chatWith).select(
+			"chatRooms -_id"
 		);
 
-		return res.status(200).json({
-			messages: chatRoomMessages.messages,
-			chatId: chatRoomMessages._id
-		});
-	} else {
-		console.log("NEW CHAT");
-		const chat = new Chat({
-			messages: [],
-			participants: [
+		const chatsOtherUserList = chatsOtherUser.chatRooms;
+
+		const haveChat = chatsCurrentUser.filter(chat =>
+			chatsOtherUserList.includes(chat)
+		);
+
+		if (haveChat.length > 0) {
+			const chatRoomMessages = await Chat.findById(haveChat).populate(
+				"messages.meta.user",
+				"firstName -_id"
+			);
+
+			return res.status(200).json({
+				messages: chatRoomMessages.messages,
+				chatId: chatRoomMessages._id
+			});
+		} else {
+			const chat = new Chat({
+				messages: [],
+				participants: [
+					{
+						user: chatWith
+					},
+					{
+						user: req.user._id
+					}
+				]
+			});
+
+			const chatId = chat._id;
+
+			// Add To Current User
+			req.user.chatRooms = [...req.user.chatRooms, chatId];
+
+			// Add To Other User
+			await User.findByIdAndUpdate(
+				chatWith,
 				{
-					user: chatWith
+					$push: { chatRooms: chatId }
 				},
-				{
-					user: req.user._id
-				}
-			]
-		});
+				{ useFindAndModify: false }
+			);
 
-		const chatId = chat._id;
+			await chat.save();
+			await req.user.save();
 
-		// Add To Current User
-		req.user.chatRooms = [...req.user.chatRooms, chatId];
-
-		// Add To Other User
-		await User.findByIdAndUpdate(
-			chatWith,
-			{
-				$push: { chatRooms: chatId }
-			},
-			{ useFindAndModify: false }
-		);
-
-		await chat.save();
-		await req.user.save();
-
-		res.status(200).json({ messages: chat.messages, chatId: chat._id });
+			res.status(200).json({ messages: chat.messages, chatId: chat._id });
+		}
+	} catch (err) {
+		err.type = "REST";
+		if (!err.statusCode) {
+			err.statusCode = 500;
+		}
+		next(err);
 	}
 };
 
@@ -112,19 +120,26 @@ exports.postSendMessage = async (req, res, next) => {
 	const messageUser = req.user._id;
 	const message = req.body.message;
 
-	const theChat = await Chat.findById(chatRoomId);
+	try {
+		const theChat = await Chat.findById(chatRoomId);
 
-	await theChat.addNewMessage(message, messageUser);
+		await theChat.addNewMessage(message, messageUser);
 
-	io.getIO()
-		.to(chatRoomId)
-		.emit("NMTC", {
-			message: message,
-			user: req.user.firstName,
-			chatRoomId: chatRoomId
-		});
-
-	res.json({ message: "Test" });
+		io.getIO()
+			.to(chatRoomId)
+			.emit("NMTC", {
+				message: message,
+				user: req.user.firstName,
+				chatRoomId: chatRoomId
+			});
+		res.json({ message: "Test" });
+	} catch (err) {
+		err.type = "REST";
+		if (!err.statusCode) {
+			err.statusCode = 500;
+		}
+		next(err);
+	}
 };
 
 // Returns Update View
@@ -194,9 +209,11 @@ exports.postUpdate = async (req, res, next) => {
 		user.social.twitter = twitter;
 		user.social.linkedIn = linkedIn;
 		user.social.instagram = instagram;
+
 		if (image === "KEEP") {
 			user.profileUrl = user.profileUrl;
 		} else {
+			if (user.profileUrl !== "") fileHelper.deleteFile(user.profileUrl); // Fire and forget
 			user.profileUrl = profileUrl;
 		}
 		await user.save();
@@ -231,17 +248,23 @@ exports.postEventRequest = async (req, res, next) => {
 	const eventTime = Date(req.body["event-time"]);
 	const eventDesc = req.body["event-description"];
 
-	const event = new Event({
-		eventName: eventName,
-		eventDate: eventDate,
-		eventTime: eventTime,
-		eventDesc: eventDesc,
-		userId: req.session.user._id
-	});
+	try {
+		const event = new Event({
+			eventName: eventName,
+			eventDate: eventDate,
+			eventTime: eventTime,
+			eventDesc: eventDesc,
+			userId: req.session.user._id
+		});
 
-	await event.save();
+		await event.save();
 
-	res.redirect("/requested-events");
+		res.redirect("/requested-events");
+	} catch (err) {
+		const error = new Error(err);
+		error.httpStatusCode = 500;
+		next(error);
+	}
 };
 
 // Returns Requested Events View
@@ -277,8 +300,11 @@ exports.deleteRequestedEvent = async (req, res, next) => {
 
 		res.status(200).json({ message: "SUCCESS" });
 	} catch (err) {
-		// throw new Error(err);
-		res.status(500).json({ message: "Deleting product failed." });
+		err.type = "REST";
+		if (!err.statusCode) {
+			err.statusCode = 500;
+		}
+		next(err);
 	}
 };
 
@@ -322,9 +348,11 @@ exports.getConnections = async (req, res, next) => {
 
 		res.status(200).json(alumnis);
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 500;
-		throw error;
+		err.type = "REST";
+		if (!err.statusCode) {
+			err.statusCode = 500;
+		}
+		next(err);
 	}
 };
 
@@ -343,9 +371,14 @@ exports.putConnection = async (req, res, next) => {
 
 		res.status(200).send("SUCCESS");
 	} catch (err) {
-		const error = new Error(err);
-		error.httpStatusCode = 500;
-		throw error;
+		// const error = new Error(err);
+		// error.httpStatusCode = 500;
+		// throw error;
+		err.type = "REST";
+		if (!err.statusCode) {
+			err.statusCode = 500;
+		}
+		next(err);
 	}
 };
 
@@ -353,13 +386,20 @@ exports.putConnection = async (req, res, next) => {
 exports.patchConnectionRequest = async (req, res, next) => {
 	const { type, connectionToParse } = req.query;
 
-	//TODO: ATT TRY CATCH
-	switch (type) {
-		case "ACCEPT":
-			await req.user.addConnection(connectionToParse);
-			return res.status(200).send("SUCCESS");
-		case "REJECT":
-			await req.user.removeConnectionRequest(connectionToParse);
-			return res.status(200).send("SUCCESS");
+	try {
+		switch (type) {
+			case "ACCEPT":
+				await req.user.addConnection(connectionToParse);
+				return res.status(200).send("SUCCESS");
+			case "REJECT":
+				await req.user.removeConnectionRequest(connectionToParse);
+				return res.status(200).send("SUCCESS");
+		}
+	} catch (err) {
+		err.type = "REST";
+		if (!err.statusCode) {
+			err.statusCode = 500;
+		}
+		next(err);
 	}
 };

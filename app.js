@@ -128,16 +128,20 @@ app.use(errorController.get404);
 
 // Special Middleware That Manages Errors
 app.use((error, req, res, next) => {
-	// console.log(error);
-	// const status = error.statusCode || 500;
-	// const message = error.message;
-	// const data = error.data;
-	// res.status(status).json({ message: message, data: data });
-
-	res.status(500).render("500", {
-		pageTitle: "Error!",
-		path: "/500"
-	});
+	if (error.type === "REST") {
+		const status = error.statusCode || 500;
+		const message = error.message;
+		const data = error.data;
+		res.status(status).json({
+			message: message,
+			data: data
+		});
+	} else {
+		res.status(500).render("500", {
+			pageTitle: "Error!",
+			path: "/500"
+		});
+	}
 });
 
 // Initialize Application With Mongoose Connection
@@ -152,7 +156,6 @@ mongoose
 
 		io.on("connection", socket => {
 			socket.on("join-room", room => {
-				console.log(`Client Room: ${room}`);
 				socket.join(room);
 			});
 

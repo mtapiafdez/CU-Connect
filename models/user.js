@@ -64,16 +64,20 @@ const userSchema = new Schema({
 	},
 	social: {
 		facebook: {
-			type: String
+			type: String,
+			default: ""
 		},
 		linkedIn: {
-			type: String
+			type: String,
+			default: ""
 		},
 		twitter: {
-			type: String
+			type: String,
+			default: ""
 		},
 		instagram: {
-			type: String
+			type: String,
+			default: ""
 		}
 	},
 	profileUrl: {

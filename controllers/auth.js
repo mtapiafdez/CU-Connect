@@ -11,8 +11,8 @@ const User = require("../models/user");
 const transporter = nodemailer.createTransport(
 	sendgridTransport({
 		auth: {
-			api_key: CONFIG.sendGridKey
-		}
+			api_key: CONFIG.sendGridKey,
+		},
 	})
 );
 
@@ -30,9 +30,9 @@ exports.getLogin = (req, res, next) => {
 		errorMessage: message,
 		oldInput: {
 			email: "",
-			password: ""
+			password: "",
 		},
-		validationErrors: []
+		validationErrors: [],
 	});
 };
 
@@ -50,9 +50,9 @@ exports.postLogin = async (req, res, next) => {
 			errorMessage: errors.array()[0].msg,
 			oldInput: {
 				email: email,
-				password: password
+				password: password,
 			},
-			validationErrors: errors.array()
+			validationErrors: errors.array(),
 		});
 	}
 
@@ -66,9 +66,9 @@ exports.postLogin = async (req, res, next) => {
 				errorMessage: "Invalid email or password.",
 				oldInput: {
 					email: email,
-					password: password
+					password: password,
 				},
-				validationErrors: []
+				validationErrors: [],
 			});
 		}
 
@@ -78,8 +78,7 @@ exports.postLogin = async (req, res, next) => {
 			req.session.isLoggedIn = true;
 			req.session.user = user;
 			req.session.userType = user.type;
-			return req.session.save(err => {
-				console.log("Session saved!");
+			return req.session.save((err) => {
 				res.redirect("/");
 			});
 		}
@@ -89,9 +88,9 @@ exports.postLogin = async (req, res, next) => {
 			errorMessage: "Invalid email or password.",
 			oldInput: {
 				email: email,
-				password: password
+				password: password,
 			},
-			validationErrors: []
+			validationErrors: [],
 		});
 	} catch (err) {
 		const error = new Error(err);
@@ -116,9 +115,9 @@ exports.getSignup = (req, res, next) => {
 		oldInput: {
 			email: "",
 			password: "",
-			confirmPassword: ""
+			confirmPassword: "",
 		},
-		validationErrors: []
+		validationErrors: [],
 	});
 };
 
@@ -142,14 +141,15 @@ exports.postSignup = async (req, res, next) => {
 	const errors = validationResult(req);
 
 	const image = req.file;
+	let profileUrl;
+
 	if (!image) {
-		return console.log("File is not an image");
+		profileUrl = "";
+	} else {
+		profileUrl = image.path;
 	}
 
-	const profileUrl = image.path;
-
 	if (!errors.isEmpty()) {
-		console.log(errors.array());
 		return res.status(422).render("auth/signup", {
 			path: "/login",
 			pageTitle: "Signup",
@@ -169,9 +169,9 @@ exports.postSignup = async (req, res, next) => {
 				occupation: occupation,
 				company: company,
 				password: password,
-				confirmPassword: req.body.confirmPassword
+				confirmPassword: req.body.confirmPassword,
 			},
-			validationErrors: errors.array()
+			validationErrors: errors.array(),
 		});
 	}
 
@@ -193,7 +193,7 @@ exports.postSignup = async (req, res, next) => {
 			occupation: occupation,
 			company: company,
 			password: hashedPassword,
-			profileUrl: profileUrl
+			profileUrl: profileUrl,
 		});
 		await user.save();
 
@@ -202,7 +202,7 @@ exports.postSignup = async (req, res, next) => {
 			to: email,
 			from: "admin@cu-connect.com",
 			subject: "Signup succeeded!",
-			html: "<h1>Signup Successful</h1>"
+			html: "<h1>Signup Successful</h1>",
 		});
 	} catch (err) {
 		const error = new Error(err);
@@ -213,8 +213,7 @@ exports.postSignup = async (req, res, next) => {
 
 // Post Logout To Server
 exports.postLogout = (req, res, next) => {
-	req.session.destroy(err => {
-		console.log("Session Destroyed");
+	req.session.destroy((err) => {
 		res.redirect("/");
 	});
 };
@@ -230,7 +229,7 @@ exports.getReset = (req, res, next) => {
 	res.render("auth/reset", {
 		path: "/reset",
 		pageTitle: "Reset Password",
-		errorMessage: message
+		errorMessage: message,
 	});
 };
 
@@ -263,7 +262,7 @@ exports.postReset = (req, res, next) => {
 					html: `
                             <p>You requested a password reset</p>
                             <p>Click this <a href="http://localhost:3000/reset/${token}">link</a> to set a new password.</p>
-                        `
+                        `,
 				});
 			}
 		} catch (err) {
@@ -281,7 +280,7 @@ exports.getNewPassword = async (req, res, next) => {
 	try {
 		const user = await User.findOne({
 			resetToken: token,
-			resetTokenExpiration: { $gt: Date.now() } // $gt = greater
+			resetTokenExpiration: { $gt: Date.now() }, // $gt = greater
 		});
 
 		let message = req.flash("error");
@@ -295,7 +294,7 @@ exports.getNewPassword = async (req, res, next) => {
 			pageTitle: "New Password",
 			errorMessage: message,
 			userId: user._id.toString(),
-			passwordToken: token
+			passwordToken: token,
 		});
 	} catch (err) {
 		const error = new Error(err);
@@ -314,7 +313,7 @@ exports.postNewPassword = async (req, res, next) => {
 		const user = await User.findOne({
 			resetToken: passwordToken,
 			resetTokenExpiration: { $gt: Date.now() },
-			_id: userId
+			_id: userId,
 		});
 
 		const hashedPassword = await bcrypt.hash(newPassword, 12);

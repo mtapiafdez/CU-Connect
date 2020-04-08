@@ -47,16 +47,8 @@ router.delete(
 //! CONNECT
 // GET => /connect
 router.get("/connect", isAuth.Alumni, alumniController.getConnect);
-router.get(
-	"/getConnections",
-	isAuth.AlumniStudent,
-	alumniController.getConnections
-);
-router.put(
-	"/sendConnection",
-	isAuth.AlumniStudent,
-	alumniController.putConnection
-);
+router.get("/getConnections", isAuth.Alumni, alumniController.getConnections);
+router.put("/sendConnection", isAuth.Alumni, alumniController.putConnection);
 
 // REST
 router.get("/getChatRoom", isAuth.Alumni, alumniController.getChatRoom);

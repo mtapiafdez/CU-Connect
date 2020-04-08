@@ -44,6 +44,21 @@
 
     <%- include("../includes/inner-scroll-end.ejs") %>
 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.3.0/socket.io.js"></script>
+    <script>
+        //! SOCKET INIT
+        const socket = io.connect();
+
+        // NMTC = New Message To Client
+        socket.on("NMTC", message => {
+            if ($("#chatRoomId").val() === message.chatRoomId) {
+                $("#chat-messages").append(
+                    `<p><span>${message.user}:&nbsp;</span>${message.message}</p>`
+                );
+            }
+        });
+    </script>
+    
     <script src="/js/alumni.js"></script>
 
 <%- include("../includes/end.ejs") %>

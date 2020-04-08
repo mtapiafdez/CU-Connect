@@ -7,6 +7,10 @@
 	box-sizing: border-box;
 }
 
+body {
+	overflow-y: hidden;
+}
+
 /* ===============================================
                 REUSABLE CLASSES
 ===============================================*/
@@ -35,6 +39,10 @@
 
 .hide-section {
 	display: none !important;
+}
+
+.invalid {
+	border: 1px solid red !important;
 }
 
 /* ===============================================
