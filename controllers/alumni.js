@@ -26,7 +26,7 @@ exports.getMe = async (req, res, next) => {
 			path: "/me",
 			pageTitle: "Me",
 			userInfo: userPopulated,
-			articles: articles
+			articles: articles,
 		});
 	} catch (err) {
 		const error = new Error(err);
@@ -44,7 +44,7 @@ exports.getMessages = async (req, res, next) => {
 	res.render("alumni-student/messages", {
 		path: "/me",
 		pageTitle: "Messages",
-		connections: userDoc.connections.connected
+		connections: userDoc.connections.connected,
 	});
 };
 
@@ -60,7 +60,7 @@ exports.getChatRoom = async (req, res, next) => {
 
 		const chatsOtherUserList = chatsOtherUser.chatRooms;
 
-		const haveChat = chatsCurrentUser.filter(chat =>
+		const haveChat = chatsCurrentUser.filter((chat) =>
 			chatsOtherUserList.includes(chat)
 		);
 
@@ -72,19 +72,19 @@ exports.getChatRoom = async (req, res, next) => {
 
 			return res.status(200).json({
 				messages: chatRoomMessages.messages,
-				chatId: chatRoomMessages._id
+				chatId: chatRoomMessages._id,
 			});
 		} else {
 			const chat = new Chat({
 				messages: [],
 				participants: [
 					{
-						user: chatWith
+						user: chatWith,
 					},
 					{
-						user: req.user._id
-					}
-				]
+						user: req.user._id,
+					},
+				],
 			});
 
 			const chatId = chat._id;
@@ -96,7 +96,7 @@ exports.getChatRoom = async (req, res, next) => {
 			await User.findByIdAndUpdate(
 				chatWith,
 				{
-					$push: { chatRooms: chatId }
+					$push: { chatRooms: chatId },
 				},
 				{ useFindAndModify: false }
 			);
@@ -125,13 +125,11 @@ exports.postSendMessage = async (req, res, next) => {
 
 		await theChat.addNewMessage(message, messageUser);
 
-		io.getIO()
-			.to(chatRoomId)
-			.emit("NMTC", {
-				message: message,
-				user: req.user.firstName,
-				chatRoomId: chatRoomId
-			});
+		io.getIO().to(chatRoomId).emit("NMTC", {
+			message: message,
+			user: req.user.firstName,
+			chatRoomId: chatRoomId,
+		});
 		res.json({ message: "Test" });
 	} catch (err) {
 		err.type = "REST";
@@ -154,7 +152,7 @@ exports.getUpdate = async (req, res, next) => {
 		res.render("alumni/update-info", {
 			path: "/me",
 			pageTitle: "Update Info",
-			userInfo: user
+			userInfo: user,
 		});
 	} catch (err) {
 		const error = new Error(err);
@@ -229,7 +227,7 @@ exports.postUpdate = async (req, res, next) => {
 exports.getReports = (req, res, next) => {
 	res.render("alumni/reports", {
 		path: "/me",
-		pageTitle: "Reports"
+		pageTitle: "Reports",
 	});
 };
 
@@ -237,7 +235,7 @@ exports.getReports = (req, res, next) => {
 exports.getRequestEvent = (req, res, next) => {
 	res.render("alumni/request-event", {
 		path: "/events",
-		pageTitle: "Request Event"
+		pageTitle: "Request Event",
 	});
 };
 
@@ -254,7 +252,7 @@ exports.postEventRequest = async (req, res, next) => {
 			eventDate: eventDate,
 			eventTime: eventTime,
 			eventDesc: eventDesc,
-			userId: req.session.user._id
+			userId: req.session.user._id,
 		});
 
 		await event.save();
@@ -271,12 +269,12 @@ exports.postEventRequest = async (req, res, next) => {
 exports.getRequestedEvents = async (req, res, next) => {
 	const requestedEvents = await Event.find({
 		userId: req.session.user._id,
-		approved: "PENDING"
+		approved: "PENDING",
 	});
 	res.render("alumni/requested-events", {
 		path: "/events",
 		pageTitle: "Requested Events",
-		requestedEvents: requestedEvents
+		requestedEvents: requestedEvents,
 	});
 };
 
@@ -295,7 +293,7 @@ exports.deleteRequestedEvent = async (req, res, next) => {
 
 		await Event.deleteOne({
 			_id: reqEventId,
-			userId: req.user._id
+			userId: req.user._id,
 		});
 
 		res.status(200).json({ message: "SUCCESS" });
@@ -313,7 +311,7 @@ exports.getConnect = (req, res, next) => {
 	res.render("alumni-student/connect", {
 		path: "/connect",
 		pageTitle: "Connect",
-		userId: req.session.user._id
+		userId: req.session.user._id,
 	});
 };
 
@@ -322,7 +320,7 @@ exports.getConnections = async (req, res, next) => {
 	let { name, classYear, major } = req.query;
 
 	let query = {
-		$and: []
+		$and: [],
 	};
 
 	if (!name && !classYear && !major) {
