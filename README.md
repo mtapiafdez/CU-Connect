@@ -2,6 +2,8 @@
 
 **Description:** Alumni portal for Cairn University. Built with Node.js & MongoDB
 
+# Describe all documents inside repository and features like UAT, testing, etc.
+
 ## TODO:
 
 // Wednesday
