@@ -8,6 +8,7 @@
 
 // Wednesday
 
+-   ( ) error handling. See videos
 -   ( ) Pagination: Bootstrap 4 (Req. Events, Approve Events, Alumni Mgmt (search), Connect (search))
 -   ( ) Address try catch (postEventRequest example, & video)
     -   It Looks Like New Error Objects Don't Need To Be Created Since, They Are Already There. Just Next! Only Throw When I Create Them.
