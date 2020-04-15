@@ -76,13 +76,13 @@ app.set("views", "views");
 app.use(express.static(path.join(__dirname, "public")));
 app.use("/images", express.static(path.join(__dirname, "images")));
 
-// Function To Run Log
+// Function Access And Write To Log File
 const accessLogStream = fs.createWriteStream(
     path.join(__dirname, "access.log"),
     { flags: "a" }
 );
 
-// Filter Through Requests For Compression And Such
+// Filter Through Requests For Compression, Security, And Logging
 app.use(helmet());
 app.use(compression());
 app.use(morgan("combined", { stream: accessLogStream }));
