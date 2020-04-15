@@ -22,7 +22,7 @@ const User = require("./models/user");
 
 // Initialize Express Server & Port
 const app = express();
-const port = 3000;
+const port = process.env.PORT || 3000;
 
 // Import Routes
 const publicRoutes = require("./routes/public");
