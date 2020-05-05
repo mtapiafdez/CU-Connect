@@ -145,6 +145,7 @@ app.use(errorController.get404);
 
 // Special Middleware That Manages Errors
 app.use((error, req, res, next) => {
+    console.log("Making it to error");
     if (error.type === "REST") {
         const status = error.statusCode || 500;
         const message = error.message;

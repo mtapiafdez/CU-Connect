@@ -9,7 +9,7 @@
     "scripts": {
         "start": "node app.js",
         "start:dev": "nodemon app.js",
-        "test": "echo \"Error: no test specified\" && exit 1"
+        "test": "jest --coverage"
     },
     "repository": {
         "type": "git",
@@ -42,6 +42,10 @@
         "uuid": "^7.0.1"
     },
     "devDependencies": {
-        "nodemon": "^2.0.2"
+        "chai": "^4.2.0",
+        "jest": "^25.4.0",
+        "mocha": "^7.1.1",
+        "nodemon": "^2.0.2",
+        "sinon": "^9.0.2"
     }
 }

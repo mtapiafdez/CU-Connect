@@ -6,9 +6,8 @@
 
 ## TODO:
 
-// Wednesday
-
--   ( ) error handling. See videos
+-   ( ) Self connect bug, styling, case insensitivity
+-   ( ) Order these and max on date.now for graduation year
 -   ( ) Pagination: Bootstrap 4 (Req. Events, Approve Events, Alumni Mgmt (search), Connect (search))
 -   ( ) Address try catch (postEventRequest example, & video)
     -   It Looks Like New Error Objects Don't Need To Be Created Since, They Are Already There. Just Next! Only Throw When I Create Them.
@@ -29,10 +28,10 @@
 ## TO INC (FUTURE):
 
 -   ( ) Pdfkit (_Document Generation - Reports_), Stripe (_Donation Page_)
--   ( ) Make Student Work (Routes, Etc.)
+-   ( ) Make Student Work Completely (Routes, Etc.)
 -   ( ) Events Calendar
 -   ( ) Address Dates & Times - Make Them Not String!
--   ( ) Boostrap Navigation. Addresses a lot of responsive stuff (Remove Inner Scroll).
+-   ( ) Bootstrap Navigation. Addresses some responsive stuff (Remove Inner Scroll).
 -   ( ) Validation And Sanitization (Add Evt POST, Alumni Update POST, Request Evt POST, Confirm (Login, Signup, Reset, New Password, Etc), Make Sure All Inputs Are Accounted For, REST (all inputs))
 
 ### NOTES:
