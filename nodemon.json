@@ -1,9 +1,0 @@
-{
-    "env": {
-        "MONGO_USER": "mtapiafdez",
-        "MONGO_PASSWORD": "MiguelTapia",
-        "MONGO_DEFAULT_DATABASE": "cu-connect",
-        "SEND_GRID_KEY": "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",
-        "SESSION_SECRET": "Secret Hash Text"
-    }
-}
